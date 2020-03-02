@@ -1,0 +1,171 @@
+import React from 'react';
+import styled from 'styled-components';
+import { Row, Col, Button } from 'antd';
+import { ClockCircleOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
+
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    background-image: url("${props => props.image}");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+`;
+
+const Content = styled.div`
+    padding: 0 64px;
+    padding-top: 200px;
+`;
+
+const Footer = styled(Row)`
+    padding: 0 64px;
+`;
+
+const Ratings = styled(Row)``;
+const Rating = styled.span`
+    font-family: 'Monoton';
+    font-size: 42px;
+    color: rgba(255, 255, 255, 0.4);
+`;
+
+const Info = styled.span`
+    color: white;
+    font-family: 'Poppins';
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+`;
+
+const Icon = styled.div`
+    margin-right: 8px;
+    display: inline-block;
+`;
+
+const Title = styled.span`
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 82px;
+    color: white;
+`;
+
+const Description = styled.span`
+    font-family: 'Poppins';
+    font-weight: 400;
+    font-size: 14px;
+    color: white;
+`;
+
+const DescriptionContainer = styled.div`
+    width: 600px;
+`;
+
+const StyledButton = styled(Button)`
+    color: white;
+    height: 56px;
+    padding: 9.4px 31px;
+    font-size: 22px;
+
+    &:hover {
+        color: goldenrod;
+    }
+`;
+
+const Actor = styled.div`
+    font-family: 'Poppins';
+    color: rgba(255, 255, 255, 0.6);
+`;
+
+export default function Slide(props: any) {
+    const image = props.data.img;
+    const history = useHistory();
+
+    const buyTicket = () => {
+        history.push(`/seanse/${props.data.id}`);
+    };
+
+    return (
+        <Container image={image}>
+            <Content>
+                <Row gutter={24}>
+                    <Col>
+                        <Info>
+                            <Icon>
+                                <VideoCameraOutlined style={{ color: 'goldenrod' }} />
+                            </Icon>{' '}
+                            {props.data.genre}
+                        </Info>
+                    </Col>
+                    <Col>
+                        <Info>
+                            <Icon>
+                                <ClockCircleOutlined style={{ color: 'goldenrod' }} />
+                            </Icon>{' '}
+                            {props.data.duration}
+                        </Info>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Title>{props.data.title}</Title>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <DescriptionContainer>
+                            <Description>{props.data.description}</Description>
+                        </DescriptionContainer>
+                    </Col>
+                </Row>
+                <Row style={{ marginTop: 24 }}>
+                    <Col>
+                        <StyledButton onClick={() => buyTicket()} size="large" type="ghost">
+                            Kup bilet
+                        </StyledButton>
+                    </Col>
+                </Row>
+            </Content>
+            <Footer style={{ marginTop: 64 }}>
+                <Col span={12}>
+                    <Row>
+                        <Col>
+                            <Row>
+                                <Info>Cast</Info>
+                            </Row>
+                            <Row gutter={[32, 18]}>
+                                {props.data.cast.map((actor: string, index: Number) => (
+                                    <Col span={8} key={index.toString()}>
+                                        <Actor>{actor}</Actor>
+                                    </Col>
+                                ))}
+                            </Row>
+                        </Col>
+                    </Row>
+                </Col>
+                <Col span={12}>
+                    <Ratings justify="end" gutter={84} style={{ marginRight: 0 }}>
+                        <Col>
+                            <Row justify="end">
+                                <Info>IMDB</Info>
+                            </Row>
+                            <Row>
+                                <Rating>{props.data.imdbRating.toFixed(1)}</Rating>
+                            </Row>
+                        </Col>
+                        <Col>
+                            <Row justify="end">
+                                <Info>Metacritic</Info>
+                            </Row>
+                            <Row>
+                                <Rating>{props.data.metacriticRating}%</Rating>
+                            </Row>
+                        </Col>
+                    </Ratings>
+                </Col>
+            </Footer>
+        </Container>
+    );
+}

@@ -1,5 +1,13 @@
-import React from "react";
+import React from 'react';
+import HomepageSlider from '../components/HomepageSlider';
+import NavigationBar from '../components/NavigationBar';
 
 export default function Home() {
-    return <div>HOME</div>;
+    return (
+        <div>
+            <HomepageSlider />
+
+            <NavigationBar />
+        </div>
+    );
 }
