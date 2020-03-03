@@ -13,6 +13,7 @@ const Container = styled.div`
     align-items: center;
     left: 0;
     right: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4864320728291317) 26%, rgba(255, 255, 255, 0) 100%);
 `;
 
 const Logo = styled.img`

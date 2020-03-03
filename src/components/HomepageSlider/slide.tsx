@@ -12,6 +12,19 @@ const Container = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+
+    text-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+`;
+
+const Overlay = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: url('overlay.png');
 `;
 
 const Content = styled.div`
@@ -50,6 +63,7 @@ const Title = styled.span`
     font-weight: 500;
     font-size: 82px;
     color: white;
+    text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
 `;
 
 const Description = styled.span`
@@ -57,6 +71,7 @@ const Description = styled.span`
     font-weight: 400;
     font-size: 14px;
     color: white;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 `;
 
 const DescriptionContainer = styled.div`
@@ -89,6 +104,7 @@ export default function Slide(props: any) {
 
     return (
         <Container image={image}>
+            <Overlay />
             <Content>
                 <Row gutter={24}>
                     <Col>
@@ -133,7 +149,7 @@ export default function Slide(props: any) {
                     <Row>
                         <Col>
                             <Row>
-                                <Info>Cast</Info>
+                                <Info>Obsada</Info>
                             </Row>
                             <Row gutter={[32, 18]}>
                                 {props.data.cast.map((actor: string, index: Number) => (
