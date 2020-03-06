@@ -9,7 +9,7 @@ const StyledContainer = styled(Col)`
 export default function Container(props: { children: any }) {
     return (
         <Row justify="center">
-            <StyledContainer lg={18} md={20} xs={24} sm={20}>
+            <StyledContainer lg={18} md={20} xs={22} sm={20}>
                 {props.children}
             </StyledContainer>
         </Row>
