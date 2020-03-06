@@ -7,6 +7,7 @@ const StyledHeading = styled.div`
     font-size: 48px;
     color: rgba(0, 0, 0, 0.8);
     margin-top: 24px;
+    margin-bottom: 24px;
 `;
 
 export default function Heading({ children }: { children: any }) {
