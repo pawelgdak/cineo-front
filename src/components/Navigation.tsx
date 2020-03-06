@@ -20,8 +20,8 @@ const NavLink = styled(Link)`
 
     transition: all 0.2s;
 
-    ${props => {
-        if (props.active) {
+    ${({ active }) => {
+        if (active) {
             return `
                 background: rgba(255, 255, 255, 0.05);
                 border-radius: 24px;
@@ -50,10 +50,10 @@ export default function Navigation() {
 
     return (
         <Container>
-            <NavLink to="/" active={location.pathname === '/'}>
+            <NavLink to="/" active={(location.pathname === '/').toString()}>
                 <NavItem>STRONA GŁÓWNA</NavItem>
             </NavLink>
-            <NavLink to="/seanse" active={location.pathname === '/seanse'}>
+            <NavLink to="/seanse" active={(location.pathname === '/seanse').toString()}>
                 <NavItem>SEANSE</NavItem>
             </NavLink>
         </Container>
