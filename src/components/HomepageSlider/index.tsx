@@ -18,7 +18,7 @@ export default function HomepageSlider() {
         {
             id: 1,
             title: 'La La Land',
-            img: 'https://storage.googleapis.com/stateless-www-theontarion-com/2015/02/weekly-scene_courtesy.jpg',
+            img: 'https://cont5.naekranie.pl/media/cache/amp/2017/02/la-la-land.jpg',
             duration: 126,
             description:
                 'Akcja filmu dzieje się w Los Angeles. Pianista jazzowy Sebastian i początkująca aktorka Mia starają się osiągnąć sukces w swoich dziedzinach. Ich losy krzyżują się wielokrotnie. Mimo początkowych animozji schodzą się ze sobą i wspólnie starają się zrealizować swoje marzenia.',
