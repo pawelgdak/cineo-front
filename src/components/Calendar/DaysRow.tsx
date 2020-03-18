@@ -18,11 +18,13 @@ const DaysContainer = styled.div`
 `;
 
 export default function DaysRow(props: { left: number; rowWidthChange: Function; date: moment.Moment | null }) {
+    const { date, left, rowWidthChange } = props;
+
     const generateDays = () => {
         let days = [];
 
         for (let i = 0; i < 14; i++) {
-            days.push(<Day date={props.date} key={i} day={i} />);
+            days.push(<Day date={date} key={i} day={i} />);
         }
 
         return days;
@@ -30,12 +32,12 @@ export default function DaysRow(props: { left: number; rowWidthChange: Function;
 
     const [ref, { width }] = useDimensions();
     useEffect(() => {
-        props.rowWidthChange(width);
-    }, [width]);
+        rowWidthChange(width);
+    }, [width, rowWidthChange]);
 
     return (
         <Container ref={ref}>
-            <DaysContainer left={props.left}>{generateDays()}</DaysContainer>
+            <DaysContainer left={left}>{generateDays()}</DaysContainer>
         </Container>
     );
 }

@@ -5,10 +5,6 @@ import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
-
 const Container = styled.div`
     display: flex;
     flex-direction: row;
@@ -39,10 +35,10 @@ export default function Calendar() {
     const [maxLeft, setMaxLeft] = useState(1000);
     const [leftArrowVisible, setLeftArrowVisible] = useState(false);
     const [rightArrowVisible, setRightArrowVisible] = useState(true);
-    const query = useQuery();
     const location = useLocation();
 
     useEffect(() => {
+        let query = new URLSearchParams(location.search);
         let tempDate: any = query.get('data');
         if (tempDate) {
             tempDate = moment(tempDate);

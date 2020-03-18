@@ -17,6 +17,7 @@ const Container = styled.div`
 
     user-select: none;
     cursor: pointer;
+    box-shadow: inset 1px -100px 0px -100px rgba(0, 0, 0, 0.3);
 
     transition: 0.3s box-shadow;
 
@@ -25,6 +26,7 @@ const Container = styled.div`
             return `
                 background: #b38012;
                 color: white;
+                box-shadow: inset 1px -100px 0px -94px rgba(0, 0, 0, 0.3);
             `;
         } else {
             return `
@@ -59,7 +61,7 @@ export default function Day(props: { day: number; date: moment.Moment | null }) 
         } else {
             setSelected(false);
         }
-    }, [props.date]);
+    }, [props.date, date]);
 
     const changeDay = () => {
         history.push(`/seanse?data=${date.format('YYYY-MM-DD')}`);
