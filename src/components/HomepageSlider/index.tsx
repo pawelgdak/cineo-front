@@ -15,19 +15,15 @@ const Container = styled.div`
 `;
 
 export default function HomepageSlider() {
-    const [element, setElement] = useState({});
+    const [element, setElement] = useState(null);
     useEffect(() => {
-        console.log('aa');
-
         (async () => {
             const API_RESPONSE = await get('movies');
             setElement(API_RESPONSE.data[Math.floor(Math.random() * API_RESPONSE.data.length)]);
-
-            console.log(API_RESPONSE);
         })();
     });
 
-    if (element != {}) {
+    if (element) {
         return (
             <Container>
                 <Slide data={element} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Row, Col, Button } from 'antd';
 import { ClockCircleOutlined, VideoCameraOutlined } from '@ant-design/icons';
@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    background-image: url("${props => props.image}");
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url("${props => props.image}");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
