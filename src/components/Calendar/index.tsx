@@ -88,7 +88,7 @@ export default function Calendar() {
             if (newLeftValue <= 0) setLeft(0);
             else if (newLeftValue >= maxLeft) setLeft(maxLeft);
         }
-    }, [date, daysVisible]);
+    }, [date, daysVisible, maxLeft]);
 
     return (
         <Container>
