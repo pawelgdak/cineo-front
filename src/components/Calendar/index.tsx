@@ -31,6 +31,7 @@ const Arrow = styled.div`
 
 export default function Calendar() {
     const [left, setLeft] = useState(0);
+    const [daysVisible, setDaysVisible] = useState(0);
     const [date, setDate] = useState(moment());
     const [maxLeft, setMaxLeft] = useState(1000);
     const [leftArrowVisible, setLeftArrowVisible] = useState(false);
@@ -49,13 +50,6 @@ export default function Calendar() {
         }
     }, [location]);
 
-    useEffect(() => {
-        let dayDifference = date.diff(moment(), 'days');
-        if (dayDifference > 3) {
-            setLeft((dayDifference - 1) * 120);
-        }
-    }, [date]);
-
     const checkIfHideArrow = () => {
         if (left === 0) {
             setLeftArrowVisible(false);
@@ -68,8 +62,10 @@ export default function Calendar() {
 
     useEffect(checkIfHideArrow, [left]);
 
-    const rowWidthChange = (width: number) => {
-        let daysVisible = Math.floor(width / 120);
+    const rowWidthChange = (rowWidth: number) => {
+        let daysVisible = Math.floor(rowWidth / 120);
+
+        setDaysVisible(daysVisible);
         setMaxLeft((14 - daysVisible) * 120);
     };
 
@@ -80,6 +76,18 @@ export default function Calendar() {
     const leftArrowPress = async () => {
         await setLeft(left => (left > 0 ? left - 120 : left));
     };
+
+    useEffect(() => {
+        let dayNumber = date.diff(moment(), 'days') + 1;
+        let newLeftValue = dayNumber * 120 - Math.floor(daysVisible / 2) * 120;
+
+        if (newLeftValue > 0 && newLeftValue < maxLeft) {
+            setLeft(newLeftValue);
+        } else {
+            if (newLeftValue <= 0) setLeft(0);
+            else if (newLeftValue >= maxLeft) setLeft(maxLeft);
+        }
+    }, [date, daysVisible]);
 
     return (
         <Container>
