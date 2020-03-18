@@ -19,10 +19,11 @@ const Arrow = styled.div`
     align-items: center;
     display: flex;
     cursor: pointer;
+    background: transparent;
     transition: 0.2s all;
     user-select: none;
 
-    visibility: ${props => (props.visible ? 'visible' : 'hidden')};
+    opacity: ${props => (props.visible ? '1' : '0')};
 
     &:hover {
         background: #fcfcfc;
@@ -55,7 +56,7 @@ export default function Calendar() {
             setLeftArrowVisible(false);
         } else setLeftArrowVisible(true);
 
-        if (left >= 1200) {
+        if (left >= maxLeft) {
             setRightArrowVisible(false);
         } else setRightArrowVisible(true);
     };
