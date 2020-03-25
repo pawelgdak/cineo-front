@@ -12,6 +12,7 @@ const Container = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
+    background: linear-gradient(to right, #141e30, #243b55);
 `;
 
 export default function HomepageSlider() {
