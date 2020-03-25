@@ -11,6 +11,7 @@ const Container = styled.div`
 
     margin-left: -24px;
     margin-right: -24px;
+    margin-top: 24px;
 `;
 
 const Arrow = styled.div`

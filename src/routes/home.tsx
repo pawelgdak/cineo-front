@@ -6,8 +6,7 @@ export default function Home() {
     return (
         <div>
             <HomepageSlider />
-
-            <NavigationBar />
+            <NavigationBar fixed={true} transparent={true} />
         </div>
     );
 }

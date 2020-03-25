@@ -2,6 +2,7 @@ export default interface IMovie {
     id: number;
     title: string;
     img: string;
+    posterImg: string;
     duration: number;
     description: string;
     genre: string;

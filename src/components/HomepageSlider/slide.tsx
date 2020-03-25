@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Row, Col, Button } from 'antd';
 import { ClockCircleOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
+import colors from '../../resources/colors';
 
 const Container = styled.div`
     width: 100%;
@@ -85,7 +86,7 @@ const StyledButton = styled(Button)`
     font-size: 22px;
 
     &:hover {
-        color: goldenrod;
+        color: ${colors.primary};
     }
 `;
 
@@ -110,7 +111,7 @@ export default function Slide(props: any) {
                     <Col>
                         <Info>
                             <Icon>
-                                <VideoCameraOutlined style={{ color: 'goldenrod' }} />
+                                <VideoCameraOutlined style={{ color: colors.primary }} />
                             </Icon>{' '}
                             {props.data.genre}
                         </Info>
@@ -118,7 +119,7 @@ export default function Slide(props: any) {
                     <Col>
                         <Info>
                             <Icon>
-                                <ClockCircleOutlined style={{ color: 'goldenrod' }} />
+                                <ClockCircleOutlined style={{ color: colors.primary }} />
                             </Icon>{' '}
                             {props.data.duration}
                         </Info>

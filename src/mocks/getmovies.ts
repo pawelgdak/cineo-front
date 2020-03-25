@@ -5,6 +5,7 @@ export default [
         id: 1,
         title: 'La La Land',
         img: 'https://cont5.naekranie.pl/media/cache/amp/2017/02/la-la-land.jpg',
+        posterImg: 'https://cdn.shopify.com/s/files/1/0798/5303/products/LALA-dance_1024x1024@2x.jpg?v=1509827405',
         duration: 126,
         description:
             'Akcja filmu dzieje się w Los Angeles. Pianista jazzowy Sebastian i początkująca aktorka Mia starają się osiągnąć sukces w swoich dziedzinach. Ich losy krzyżują się wielokrotnie. Mimo początkowych animozji schodzą się ze sobą i wspólnie starają się zrealizować swoje marzenia.',
@@ -17,6 +18,7 @@ export default [
         id: 2,
         title: 'Bad Boys 4 Life',
         img: 'https://static01.nyt.com/images/2020/01/26/arts/26box/26box-videoSixteenByNineJumbo1600.jpg',
+        posterImg: 'https://cdn.shopify.com/s/files/1/0798/5303/products/LALA-dance_1024x1024@2x.jpg?v=1509827405',
         duration: 105,
         description:
             'Gdy z więzienia ucieka pałająca żądzą zemsty baronowa narkotykowego kartelu, bohaterowie stają przed największym wyzwaniem w swojej dotychczasowej karierze.',
