@@ -20,7 +20,7 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
     const handleLogin = () => {
         setLoading(true);
 
-        if (!login || login.length == 0 || !password || password.length == 0) {
+        if (!login || login.length === 0 || !password || password.length === 0) {
             message.warning('Musisz wypełnić wszystkie pola!');
             setLoading(false);
             return;
@@ -30,7 +30,7 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
     const handleOk = () => {
         setLoading(true);
 
-        if (slide == 0) {
+        if (slide === 0) {
             handleLogin();
         }
     };
@@ -50,7 +50,7 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
             visible={props.visible}
             footer={[
                 <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-                    {slide == 0 ? 'Zaloguj' : 'Zarejestruj'}
+                    {slide === 0 ? 'Zaloguj' : 'Zarejestruj'}
                 </Button>,
             ]}
         >

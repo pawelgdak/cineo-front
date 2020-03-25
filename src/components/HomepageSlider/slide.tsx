@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Row, Col, Button } from 'antd';
 import { ClockCircleOutlined, VideoCameraOutlined } from '@ant-design/icons';
@@ -113,7 +113,7 @@ const Actor = styled.div`
 export default function Slide(props: any) {
     const image = props.data.img;
     const history = useHistory();
-    const { height, width } = useWindowDimensions();
+    const { width } = useWindowDimensions();
 
     const buyTicket = () => {
         history.push(`/seanse/${props.data.id}`);
