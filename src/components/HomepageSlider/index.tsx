@@ -21,7 +21,7 @@ export default function HomepageSlider() {
             const API_RESPONSE = await get('movies');
             setElement(API_RESPONSE.data[Math.floor(Math.random() * API_RESPONSE.data.length)]);
         })();
-    });
+    }, []);
 
     if (element) {
         return (
