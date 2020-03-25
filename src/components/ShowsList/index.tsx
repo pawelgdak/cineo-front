@@ -15,6 +15,8 @@ export default function ShowsList() {
     const [date, setDate]: [moment.Moment, Function] = useState(moment());
     const [shows, setShows]: [Array<IMovieShows>, Function] = useState([]);
 
+    let isMounted = false;
+
     useEffect(() => {
         let query = new URLSearchParams(location.search);
         let tempDate: any = query.get('data');
@@ -23,7 +25,7 @@ export default function ShowsList() {
         }
 
         if (tempDate && tempDate >= moment().subtract(1, 'days') && tempDate < moment().add(13, 'days')) {
-            setDate(tempDate);
+            isMounted && setDate(tempDate);
         }
     }, [location]);
 
@@ -31,12 +33,20 @@ export default function ShowsList() {
         (async () => {
             try {
                 const API_RESPONSE = await get('movieshows');
-                setShows(API_RESPONSE.data);
+                isMounted && setShows(API_RESPONSE.data);
             } catch (err) {
                 console.error(err);
             }
         })();
     }, [date]);
+
+    useEffect(() => {
+        isMounted = true;
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     return (
         <Container>

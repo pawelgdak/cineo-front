@@ -13,11 +13,18 @@ export default function Show(props: {}) {
     const { id } = useParams();
     const [movie, setMovie]: [IMovie, Function] = useState(null);
 
+    let isMounted = false;
+
     useEffect(() => {
+        isMounted = true;
         (async () => {
             const API_RESPONSE = await get('movies');
-            setMovie(API_RESPONSE.data[0]);
+            isMounted && setMovie(API_RESPONSE.data[0]);
         })();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     return (

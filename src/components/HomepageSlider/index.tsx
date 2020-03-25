@@ -16,11 +16,19 @@ const Container = styled.div`
 
 export default function HomepageSlider() {
     const [element, setElement] = useState(null);
+    let isMounted = false;
+
     useEffect(() => {
+        isMounted = true;
+
         (async () => {
             const API_RESPONSE = await get('movies');
-            setElement(API_RESPONSE.data[Math.floor(Math.random() * API_RESPONSE.data.length)]);
+            isMounted && setElement(API_RESPONSE.data[Math.floor(Math.random() * API_RESPONSE.data.length)]);
         })();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     if (element) {
