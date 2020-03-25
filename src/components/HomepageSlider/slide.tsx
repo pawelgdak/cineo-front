@@ -4,6 +4,7 @@ import { Row, Col, Button } from 'antd';
 import { ClockCircleOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 import colors from '../../resources/colors';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const Container = styled.div`
     width: 100%;
@@ -13,6 +14,8 @@ const Container = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    background-attachment: fixed;
+    overflow: scroll;
 
     text-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 `;
@@ -63,8 +66,20 @@ const Title = styled.span`
     font-family: 'Poppins';
     font-weight: 500;
     font-size: 82px;
+    line-height: 82px;
+    margin: 16px 0;
     color: white;
     text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 768px) {
+        font-size: 64px;
+        line-height: 64px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 48px;
+        line-height: 48px;
+    }
 `;
 
 const Description = styled.span`
@@ -76,7 +91,7 @@ const Description = styled.span`
 `;
 
 const DescriptionContainer = styled.div`
-    width: 600px;
+    max-width: 600px;
 `;
 
 const StyledButton = styled(Button)`
@@ -98,6 +113,7 @@ const Actor = styled.div`
 export default function Slide(props: any) {
     const image = props.data.img;
     const history = useHistory();
+    const { height, width } = useWindowDimensions();
 
     const buyTicket = () => {
         history.push(`/seanse/${props.data.id}`);
@@ -126,7 +142,7 @@ export default function Slide(props: any) {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col style={{ margin: '24px 0' }}>
                         <Title>{props.data.title}</Title>
                     </Col>
                 </Row>
@@ -146,7 +162,7 @@ export default function Slide(props: any) {
                 </Row>
             </Content>
             <Footer style={{ marginTop: 64 }}>
-                <Col span={12}>
+                <Col xs={24} sm={24} md={12} span={12}>
                     <Row>
                         <Col>
                             <Row>
@@ -162,21 +178,22 @@ export default function Slide(props: any) {
                         </Col>
                     </Row>
                 </Col>
-                <Col span={12}>
-                    <Ratings justify="end" gutter={84} style={{ marginRight: 0 }}>
-                        <Col>
-                            <Row justify="end">
+                <Col xs={24} sm={24} md={12} span={12}>
+                    <Ratings justify={width > 768 ? 'end' : 'start'} gutter={84} style={{ marginRight: 0 }}>
+                        <Col xs={0} sm={0} md={10}></Col>
+                        <Col xs={24} sm={24} md={7}>
+                            <Row justify={width > 768 ? 'end' : 'start'}>
                                 <Info>IMDB</Info>
                             </Row>
-                            <Row>
+                            <Row justify={width > 768 ? 'end' : 'start'}>
                                 <Rating>{props.data.imdbRating.toFixed(1)}</Rating>
                             </Row>
                         </Col>
-                        <Col>
-                            <Row justify="end">
+                        <Col xs={24} sm={24} md={7}>
+                            <Row justify={width > 768 ? 'end' : 'start'}>
                                 <Info>Metacritic</Info>
                             </Row>
-                            <Row>
+                            <Row justify={width > 768 ? 'end' : 'start'}>
                                 <Rating>{props.data.metacriticRating}%</Rating>
                             </Row>
                         </Col>

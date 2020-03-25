@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import IMovie from '../interfaces/IMovie';
-import { Row, Col } from 'antd';
 
 const Container = styled.div`
     width: 100%;

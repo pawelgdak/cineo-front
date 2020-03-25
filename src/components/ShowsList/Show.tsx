@@ -6,7 +6,6 @@ import { Row, Col, Button } from 'antd';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import colors from '../../resources/colors';
-import { ParallaxBanner } from 'react-scroll-parallax';
 
 const MainContainer = styled.div`
     margin: 0 24px;

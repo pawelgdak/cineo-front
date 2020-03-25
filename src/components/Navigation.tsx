@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { UserOutlined } from '@ant-design/icons';
+import AccountDrawer from './AccountModal';
 
 const Container = styled.div`
     display: flex;
@@ -17,14 +19,14 @@ const NavLink = styled(Link)`
     text-decoration: none;
     padding: 8px 18px;
     margin: 0 12px;
+    border-radius: 4px;
 
     transition: all 0.2s;
 
     ${({ active }) => {
-        if (active) {
+        if (active === 'true') {
             return `
                 background: rgba(255, 255, 255, 0.05);
-                border-radius: 24px;
 
                 span {
                     color: rgba(255,255,255,0.8) !important;
@@ -34,7 +36,6 @@ const NavLink = styled(Link)`
             return `
                 &:hover {
                     background: rgba(255, 255, 255, 0.02);
-                    border-radius: 24px;
 
                     span {
                         color: rgba(255, 255, 255, 0.7) !important;
@@ -47,6 +48,7 @@ const NavLink = styled(Link)`
 
 export default function Navigation() {
     const location = useLocation();
+    const [visible, setVisible] = useState(false);
 
     return (
         <Container>
@@ -56,6 +58,13 @@ export default function Navigation() {
             <NavLink to="/seanse" active={(location.pathname === '/seanse').toString()}>
                 <NavItem>SEANSE</NavItem>
             </NavLink>
+            <NavLink to={location.pathname} onClick={() => setVisible(true)}>
+                <NavItem>
+                    <UserOutlined />
+                </NavItem>
+            </NavLink>
+
+            <AccountDrawer setVisible={(value: boolean) => setVisible(value)} visible={visible} />
         </Container>
     );
 }
