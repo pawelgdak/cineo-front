@@ -5,13 +5,15 @@ import { get } from '../../utils/requests';
 import IMovieShows from '../../interfaces/IMovieShows';
 import Show from './Show';
 import styled from 'styled-components';
+import Skeleton from 'react-loading-skeleton';
 
 const Container = styled.div`
-    margin: 48px 0;
+    margin: 48px 24px;
 `;
 
 export default function ShowsList() {
     const location = useLocation();
+    const [contentLoading, setContentLoading] = useState(true);
     const [date, setDate]: [moment.Moment, Function] = useState(moment());
     const [shows, setShows]: [Array<IMovieShows>, Function] = useState([]);
 
@@ -34,6 +36,7 @@ export default function ShowsList() {
             try {
                 const API_RESPONSE = await get('movieshows');
                 isMounted && setShows(API_RESPONSE.data);
+                isMounted && setContentLoading(false);
             } catch (err) {
                 console.error(err);
             }
@@ -51,9 +54,11 @@ export default function ShowsList() {
     return (
         <Container>
             <div>
-                {shows.map((show, index) => (
-                    <Show key={index} data={show} />
-                ))}
+                {contentLoading ? (
+                    <Skeleton height={500} />
+                ) : (
+                    shows.map((show, index) => <Show key={index} data={show} />)
+                )}
             </div>
         </Container>
     );

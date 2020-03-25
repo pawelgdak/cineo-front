@@ -8,7 +8,6 @@ import { useHistory } from 'react-router-dom';
 import colors from '../../resources/colors';
 
 const MainContainer = styled.div`
-    margin: 0 24px;
     margin-bottom: 24px;
     height: ${props => props.height}px;
     min-height: 400px;
