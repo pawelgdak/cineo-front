@@ -1,6 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { Modal, Form, Input, Button, Carousel, message } from 'antd';
 import styled from 'styled-components';
+import { get } from '../utils/requests';
+import IUser from '../interfaces/IUser';
+import { saveToken } from '../utils/token';
+import { useGlobalState } from '../state';
 
 const Heading = styled.p`
     font-family: 'Poppins';
@@ -17,6 +21,8 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
     const [login, setLogin] = useState(null);
     const [password, setPassword] = useState(null);
 
+    const [user, setUser] = useGlobalState('user');
+
     const handleLogin = () => {
         setLoading(true);
 
@@ -27,11 +33,22 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
         }
     };
 
-    const handleOk = () => {
+    const handleOk = async () => {
         setLoading(true);
 
         if (slide === 0) {
             handleLogin();
+        }
+
+        try {
+            const userWithToken = await get('userwithtoken');
+
+            if (userWithToken) {
+                saveToken(userWithToken.token);
+                setUser(userWithToken.user);
+            }
+        } catch (err) {
+            message.error('Wystąpił problem z logowaniem. Spóbuj ponownie później.');
         }
     };
 
