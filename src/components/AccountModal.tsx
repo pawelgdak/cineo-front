@@ -23,21 +23,13 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
 
     const [user, setUser] = useGlobalState('user');
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         setLoading(true);
 
         if (!login || login.length === 0 || !password || password.length === 0) {
             message.warning('Musisz wypełnić wszystkie pola!');
             setLoading(false);
             return;
-        }
-    };
-
-    const handleOk = async () => {
-        setLoading(true);
-
-        if (slide === 0) {
-            handleLogin();
         }
 
         try {
@@ -46,9 +38,19 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
             if (userWithToken) {
                 saveToken(userWithToken.token);
                 setUser(userWithToken.user);
+
+                props.setVisible(false);
             }
         } catch (err) {
             message.error('Wystąpił problem z logowaniem. Spóbuj ponownie później.');
+        }
+    };
+
+    const handleOk = () => {
+        setLoading(true);
+
+        if (slide === 0) {
+            handleLogin();
         }
     };
 
