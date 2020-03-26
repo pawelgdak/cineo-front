@@ -50,7 +50,7 @@ export async function post(endpoint: string, data: any = {}, options: any = {}):
 export async function get(endpoint: string, options: any = {}): Promise<any> {
     options = Object.assign({}, { useToken: true }, options);
 
-    if (process.env.REACT_APP_MOCK_REQUESTS) {
+    if (process.env.REACT_APP_MOCK_REQUESTS === 'true') {
         try {
             const MOCK = await import(`../mocks/get${endpoint}`);
             const returnObject = {
@@ -59,7 +59,7 @@ export async function get(endpoint: string, options: any = {}): Promise<any> {
                 data: MOCK.default,
             };
 
-            if (process.env.REACT_APP_SIMULATE_WEAK_NETWORK) {
+            if (process.env.REACT_APP_SIMULATE_WEAK_NETWORK === 'true') {
                 await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 5 + 1) * 1000));
             }
 
