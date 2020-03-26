@@ -7,7 +7,7 @@ import colors from '../resources/colors';
 
 const Container = styled.div`
     display: flex;
-    position: ${props => (props.fixed ? 'fixed' : 'relative')};
+    position: ${props => (props.fixed ? 'fixed' : props.absolute ? 'absolute' : 'relative')};
     top: 0;
     padding: 48px 64px;
     z-index: 10;
@@ -26,13 +26,14 @@ const Logo = styled.img`
     height: auto;
 `;
 
-export default function NavigationBar(props: { transparent?: boolean; fixed?: boolean }) {
+export default function NavigationBar(props: { transparent?: boolean; fixed?: boolean; absolute?: boolean }) {
     const location = useLocation();
     const transparent = props.transparent ? props.transparent : false;
     const fixed = props.fixed ? props.fixed : false;
+    const absolute = props.absolute ? props.absolute : false;
 
     return (
-        <Container transparent={transparent} fixed={fixed} location={location}>
+        <Container transparent={transparent} absolute={absolute} fixed={fixed} location={location}>
             <Logo src={logoImage} />
             <Navigation />
         </Container>

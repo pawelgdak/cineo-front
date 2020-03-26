@@ -7,9 +7,13 @@ const Container = styled.div`
     z-index: 0;
     height: 400px;
     background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url("${props => props.image}");
-    background-position: 0 30%;
+    background-position: 50% 30%;
     background-repeat: no-repeat;
     background-size: cover;
+
+    @media(max-width: 576px) {
+        height: 200px;
+    }
 `;
 
 export default function MovieBanner(props: { movie: IMovie }) {

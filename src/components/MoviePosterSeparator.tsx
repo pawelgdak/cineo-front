@@ -13,6 +13,10 @@ const Separator = styled(Row)`
 
 const ImageContainer = styled.div`
     width: 200px;
+
+    @media (max-width: 576px) {
+        display: none;
+    }
 `;
 
 const Image = styled.img`
@@ -36,7 +40,7 @@ const InfoContainer = styled.div`
 
 const InfoElement = styled.span`
     font-family: 'Poppins';
-    font-weight: 400;
+    font-weight: ${props => (props.strong ? 500 : 400)};
     margin-right: 8px;
 
     &:after {
@@ -51,7 +55,7 @@ const InfoElement = styled.span`
 
 export default function MoviePosterSeparator(props: { movie: IMovie }) {
     const { movie } = props;
-    const { posterImg, duration, imdbRating } = movie || {};
+    const { posterImg, duration, imdbRating, title } = movie || {};
 
     // if (!movie) return <Separator />;
 
@@ -72,7 +76,14 @@ export default function MoviePosterSeparator(props: { movie: IMovie }) {
                     </Col>
                     <Col>
                         <InfoContainer>
-                            {duration ? <InfoElement>{duration}min</InfoElement> : <Skeleton width={42} />}
+                            {title ? <InfoElement strong={true}>{title}</InfoElement> : <Skeleton width={100} />}
+                            {duration ? (
+                                <InfoElement>{duration}min</InfoElement>
+                            ) : (
+                                <div style={{ display: 'inline-block', marginLeft: 8 }}>
+                                    <Skeleton width={42} />
+                                </div>
+                            )}
                             {imdbRating ? (
                                 <InfoElement>IMDb: {imdbRating.toFixed(1)}</InfoElement>
                             ) : (

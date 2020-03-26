@@ -19,6 +19,7 @@
         "less": "^3.11.1",
         "less-loader": "^5.0.0",
         "moment": "^2.24.0",
+        "movie-trailer": "^2.0.6",
         "react": "^16.13.0",
         "react-app-rewired": "^2.1.5",
         "react-dom": "^16.13.0",
@@ -28,6 +29,7 @@
         "react-scripts": "3.4.0",
         "react-scroll-parallax": "^2.3.2",
         "react-use-dimensions": "^1.2.1",
+        "react-youtube": "^7.9.0",
         "styled-components": "^5.0.1",
         "typescript": "^3.7.5"
     },
