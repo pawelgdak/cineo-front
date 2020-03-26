@@ -53,11 +53,7 @@ export async function get(endpoint: string, options: any = {}): Promise<any> {
     if (process.env.REACT_APP_MOCK_REQUESTS === 'true') {
         try {
             const MOCK = await import(`../mocks/get${endpoint}`);
-            const returnObject = {
-                status: 200,
-                message: 'OK',
-                data: MOCK.default,
-            };
+            const returnObject = MOCK.default;
 
             if (process.env.REACT_APP_SIMULATE_WEAK_NETWORK === 'true') {
                 await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 5 + 1) * 1000));

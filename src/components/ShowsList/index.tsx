@@ -35,7 +35,7 @@ export default function ShowsList() {
         (async () => {
             try {
                 const API_RESPONSE = await get('movieshows');
-                isMounted && setShows(API_RESPONSE.data);
+                isMounted && setShows(API_RESPONSE);
                 isMounted && setContentLoading(false);
             } catch (err) {
                 console.error(err);

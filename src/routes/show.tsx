@@ -19,7 +19,7 @@ export default function Show(props: {}) {
         isMounted = true;
         (async () => {
             const API_RESPONSE = await get('movies');
-            isMounted && setMovie(API_RESPONSE.data[0]);
+            isMounted && setMovie(API_RESPONSE[0]);
         })();
 
         return () => {

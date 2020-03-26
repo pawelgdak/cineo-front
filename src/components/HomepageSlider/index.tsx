@@ -24,7 +24,7 @@ export default function HomepageSlider() {
 
         (async () => {
             const API_RESPONSE = await get('movies');
-            isMounted && setElement(API_RESPONSE.data[Math.floor(Math.random() * API_RESPONSE.data.length)]);
+            isMounted && setElement(API_RESPONSE[Math.floor(Math.random() * API_RESPONSE.length)]);
         })();
 
         return () => {
