@@ -39,6 +39,7 @@ const Underlined = styled.span`
         transparent
     );
     display: inline;
+    cursor: pointer;
 `;
 
 const CastTitle = styled.span`
