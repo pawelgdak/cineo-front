@@ -34,7 +34,7 @@ export default function ShowsList() {
     useEffect(() => {
         (async () => {
             try {
-                const API_RESPONSE = await get('movieshows');
+                const API_RESPONSE = await get('movieshows', { useToken: false });
                 isMounted && setShows(API_RESPONSE);
                 isMounted && setContentLoading(false);
             } catch (err) {
@@ -57,7 +57,7 @@ export default function ShowsList() {
                 {contentLoading ? (
                     <Skeleton height={500} />
                 ) : (
-                    shows.map((show, index) => <Show key={index} data={show} />)
+                    shows && shows.map((show, index) => <Show key={index} data={show} />)
                 )}
             </div>
         </Container>

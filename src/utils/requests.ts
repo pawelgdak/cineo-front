@@ -21,7 +21,7 @@ export async function post(endpoint: string, data: any = {}, options: any = {}):
 
     try {
         const API_RESPONSE = await axios.post(
-            `${process.env.apiServer}/${endpoint}`,
+            `${process.env.REACT_APP_API}${endpoint}`,
             data,
             options.useToken
                 ? {
@@ -56,7 +56,7 @@ export async function get(endpoint: string, options: any = {}): Promise<any> {
             const returnObject = MOCK.default;
 
             if (process.env.REACT_APP_SIMULATE_WEAK_NETWORK === 'true') {
-                await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 5 + 1) * 1000));
+                await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 3 + 1) * 1000));
             }
 
             return returnObject;
@@ -76,7 +76,7 @@ export async function get(endpoint: string, options: any = {}): Promise<any> {
 
         try {
             const API_RESPONSE = await axios.get(
-                `${process.env.apiServer}/${endpoint}`,
+                `${process.env.REACT_APP_API}${endpoint}`,
                 options.useToken
                     ? {
                           headers: { Authorization: `Bearer ${userToken}` },
