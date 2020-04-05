@@ -30,12 +30,28 @@ export async function post(endpoint: string, data: any = {}, options: any = {}):
                 : {},
         );
 
-        if (API_RESPONSE.status === 200 && API_RESPONSE.data.success) {
+        if (API_RESPONSE.status === 200 || API_RESPONSE.status == 201) {
             return API_RESPONSE.data;
         } else throw Error(API_RESPONSE.data.message);
     } catch (err) {
+        console.log(err.response);
+
         if (err.response && err.response.data) {
-            throw new Error(err.response.data.message);
+            if (err.response.status === 400) {
+                let errors = [] as string[];
+
+                if (typeof err.response.data == 'string') {
+                    errors.push(err.response.data);
+
+                    throw errors;
+                }
+
+                Object.keys(err.response.data.errors).forEach((key) =>
+                    err.response.data.errors[key].forEach((el: any) => errors.push(el)),
+                );
+
+                throw errors;
+            }
         }
         return false;
     }
@@ -56,7 +72,7 @@ export async function get(endpoint: string, options: any = {}): Promise<any> {
             const returnObject = MOCK.default;
 
             if (process.env.REACT_APP_SIMULATE_WEAK_NETWORK === 'true') {
-                await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 3 + 1) * 1000));
+                await new Promise((resolve) => setTimeout(resolve, Math.floor(Math.random() * 3 + 1) * 1000));
             }
 
             return returnObject;
