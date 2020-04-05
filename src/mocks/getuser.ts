@@ -8,5 +8,5 @@ export default {
     dateOfBirth: new Date(1997, 6, 19),
     city: 'Opole',
     country: 'Poland',
-    role: 0,
+    permission: 0,
 } as IUser;

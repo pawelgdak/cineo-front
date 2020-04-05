@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
@@ -24,7 +24,7 @@ const NavLink = styled(Link)`
     margin: 0 12px;
     border-radius: 4px;
 
-    ${props => props.style}
+    ${(props) => props.style}
 
     transition: all 0.2s;
 
@@ -80,6 +80,11 @@ export default function Navigation() {
             <NavLink to="/seanse" active={(location.pathname === '/seanse').toString()}>
                 <NavItem>SEANSE</NavItem>
             </NavLink>
+            {user && (
+                <NavLink to="/panel" active={(location.pathname === '/panel').toString()}>
+                    <NavItem>PANEL</NavItem>
+                </NavLink>
+            )}
             <NavLink
                 style={{ marginRight: 0 }}
                 to={user ? '/user' : location.pathname}

@@ -9,7 +9,8 @@ import Show from './show';
 import { get } from '../utils/requests';
 import { useGlobalState } from '../state';
 import Page404 from '../components/Page404';
-import Panel from './panel';
+//@ts-ignore
+import Panel from './Panel';
 
 export default function Routes() {
     const [user, setUser] = useGlobalState('user');
