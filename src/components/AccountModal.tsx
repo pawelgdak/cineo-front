@@ -55,10 +55,8 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
             if (API_RESPONSE_LOGIN) {
                 saveToken(API_RESPONSE_LOGIN.token);
 
-                const API_RESPONSE_USER = await get(`users/${14}`, { useToken: false });
+                const API_RESPONSE_USER = await get(`users/me`);
                 if (API_RESPONSE_USER) {
-                    console.log(API_RESPONSE_USER);
-
                     setUser(API_RESPONSE_USER);
                 }
             } else {
