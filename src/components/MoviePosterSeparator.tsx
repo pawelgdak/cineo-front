@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import IMovie from '../interfaces/IMovie';
 import { Row, Col } from 'antd';
@@ -35,12 +35,12 @@ const ImageSkeleton = styled.div`
 
 const InfoContainer = styled.div`
     padding: 8px 0;
-    margin-left: ${props => props.marginLeft}px;
+    margin-left: ${(props) => props.marginLeft}px;
 `;
 
 const InfoElement = styled.span`
     font-family: 'Poppins';
-    font-weight: ${props => (props.strong ? 500 : 400)};
+    font-weight: ${(props) => (props.strong ? 500 : 400)};
     margin-right: 8px;
 
     &:after {

@@ -30,7 +30,7 @@ export async function post(endpoint: string, data: any = {}, options: any = {}):
                 : {},
         );
 
-        if (API_RESPONSE.status === 200 || API_RESPONSE.status == 201) {
+        if (API_RESPONSE.status === 200 || API_RESPONSE.status === 201) {
             return API_RESPONSE.data;
         } else throw Error(API_RESPONSE.data.message);
     } catch (err) {
