@@ -8,6 +8,7 @@ import User from './user';
 import Show from './show';
 import { get } from '../utils/requests';
 import { useGlobalState } from '../state';
+import Page404 from '../components/Page404';
 
 export default function Routes() {
     const [user, setUser] = useGlobalState('user');
@@ -31,16 +32,12 @@ export default function Routes() {
         })();
     }, []);
 
-    const Render404 = () => {
-        return <div>404</div>;
-    };
-
     const Auth = (props: { Render: any }) => {
         const { Render } = props;
 
         if (user && user.id) {
             return <Render />;
-        } else return <Render404 />;
+        } else return <Page404 />;
     };
 
     return (
@@ -57,7 +54,7 @@ export default function Routes() {
             <Route exact path="/">
                 <Home />
             </Route>
-            <Route component={Render404} />
+            <Route component={Page404} />
         </Switch>
     );
 }
