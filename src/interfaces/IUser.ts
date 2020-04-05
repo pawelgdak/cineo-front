@@ -6,5 +6,5 @@ export default interface IUser {
     dateOfBirth: Date;
     city: string;
     country: string;
-    role: number;
+    permission: number;
 }
