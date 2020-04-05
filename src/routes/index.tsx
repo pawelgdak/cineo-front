@@ -4,6 +4,7 @@ import { getToken, removeToken } from '../utils/token';
 
 import Home from './home';
 import Showtimes from './showtimes';
+import User from './user';
 import Show from './show';
 import { get } from '../utils/requests';
 import { useGlobalState } from '../state';
@@ -30,6 +31,18 @@ export default function Routes() {
         })();
     }, []);
 
+    const Render404 = () => {
+        return <div>404</div>;
+    };
+
+    const Auth = (props: { Render: any }) => {
+        const { Render } = props;
+
+        if (user && user.id) {
+            return <Render />;
+        } else return <Render404 />;
+    };
+
     return (
         <Switch>
             <Route path="/seanse/:id">
@@ -38,9 +51,13 @@ export default function Routes() {
             <Route path="/seanse">
                 <Showtimes />
             </Route>
+            <Route path="/user">
+                <Auth Render={User} />
+            </Route>
             <Route exact path="/">
                 <Home />
             </Route>
+            <Route component={Render404} />
         </Switch>
     );
 }
