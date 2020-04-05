@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from './token';
 
 /**
  * Post request
@@ -12,7 +13,7 @@ export async function post(endpoint: string, data: any = {}, options: any = {}):
     let userToken;
 
     if (options.useToken) {
-        // userToken = await AsyncStorage.getItem('jwt-token');
+        userToken = await getToken();
 
         if (!userToken) {
             throw new Error('No user token');
@@ -81,7 +82,7 @@ export async function get(endpoint: string, options: any = {}): Promise<any> {
         let userToken;
 
         if (options.useToken) {
-            // userToken = await AsyncStorage.getItem('jwt-token');
+            userToken = await getToken();
 
             if (!userToken) {
                 throw new Error('No user token');
