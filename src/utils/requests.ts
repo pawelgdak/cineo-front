@@ -34,8 +34,6 @@ export async function post(endpoint: string, data: any = {}, options: any = {}):
             return API_RESPONSE.data;
         } else throw Error(API_RESPONSE.data.message);
     } catch (err) {
-        console.log(err.response);
-
         if (err.response && err.response.data) {
             if (err.response.status === 400) {
                 let errors = [] as string[];
@@ -100,7 +98,7 @@ export async function get(endpoint: string, options: any = {}): Promise<any> {
                     : {},
             );
 
-            if (API_RESPONSE.status === 200 && API_RESPONSE.data.success) {
+            if (API_RESPONSE.status === 200) {
                 return API_RESPONSE.data;
             } else return false;
         } catch (err) {

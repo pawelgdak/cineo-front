@@ -43,16 +43,38 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
         }
 
         try {
-            const userWithToken = await get('userwithtoken');
+            const API_RESPONSE_LOGIN = await post(
+                'auth/login',
+                {
+                    username: login,
+                    password: password,
+                },
+                { useToken: false },
+            );
 
-            if (userWithToken) {
-                saveToken(userWithToken.token);
-                setUser(userWithToken.user);
+            if (API_RESPONSE_LOGIN) {
+                saveToken(API_RESPONSE_LOGIN.token);
 
-                props.setVisible(false);
+                const API_RESPONSE_USER = await get(`users/${14}`, { useToken: false });
+                if (API_RESPONSE_USER) {
+                    console.log(API_RESPONSE_USER);
+
+                    setUser(API_RESPONSE_USER);
+                }
+            } else {
+                message.warning('Podano niepoprawne dane.');
+                setLoading(false);
+
+                return;
             }
+
+            // const userWithToken = await get('userwithtoken');
+            // setUser(userWithToken.user);
+
+            props.setVisible(false);
         } catch (err) {
-            message.error('Wystąpił problem z logowaniem. Spóbuj ponownie później.');
+            message.warning(err.map ? err.map((error: any) => error) : err.message);
+            setLoading(false);
         }
     };
 
