@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Row, Col, Form, Input, Button, message } from 'antd';
 import styled from 'styled-components';
 import { post } from '../../../utils/requests';
+import { useHistory } from 'react-router-dom';
 
 const Header = styled.div`
     font-size: 24px;
@@ -32,6 +33,7 @@ export default function AddMovie() {
     const [director, setDirector] = useState(null);
 
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
 
     const handleForm = async () => {
         setLoading(true);
@@ -83,6 +85,7 @@ export default function AddMovie() {
 
             if (API_RESPONSE) {
                 message.success('Pomyślnie dodano film.');
+                history.push('/panel/movies');
             } else message.warning('Coś poszło nie tak.');
         } catch (err) {
             message.warning(err.map ? err.map((error: any) => error) : err.message);
