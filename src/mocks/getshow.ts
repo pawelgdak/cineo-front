@@ -17,4 +17,4 @@ export default {
         metacriticRating: 75,
     },
     hall: 1,
-} as IShow;
+};

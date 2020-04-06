@@ -6,6 +6,8 @@ import { FaFilm, FaTachometerAlt } from 'react-icons/fa';
 import { NavLink, useHistory, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
+import AddMovie from './movies/add';
+
 const Content = styled.div`
     padding: 24px;
 `;
@@ -78,7 +80,9 @@ export default function Panel() {
                 </Sider>
                 <Content>
                     <Switch>
-                        <Route path="/panel/movies/add">add movie</Route>
+                        <Route path="/panel/movies/add">
+                            <AddMovie />
+                        </Route>
                         <Route path="/panel/movies">movies list</Route>
                         <Route path="/panel">Panel</Route>
                     </Switch>

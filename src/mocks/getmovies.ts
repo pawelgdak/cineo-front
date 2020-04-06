@@ -27,4 +27,4 @@ export default [
         imdbRating: 7.1,
         metacriticRating: 75,
     },
-] as Array<IMovie>;
+];

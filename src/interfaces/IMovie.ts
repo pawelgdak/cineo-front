@@ -1,12 +1,15 @@
 export default interface IMovie {
     id: number;
     title: string;
-    img: string;
-    posterImg: string;
+    image: string;
+    smallImage: string;
     duration: number;
     description: string;
+    production: string;
+    yearOfProduction: number;
     genre: string;
     cast: Array<string>;
-    imdbRating: number;
-    metacriticRating: number;
+    imdbScore: number;
+    metacriticScore: number;
+    rottenTomatoesScore: number;
 }

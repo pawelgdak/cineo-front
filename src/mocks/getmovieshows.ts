@@ -64,4 +64,4 @@ export default [
             },
         ],
     },
-] as Array<IMovieShows>;
+];
