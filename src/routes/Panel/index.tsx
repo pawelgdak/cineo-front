@@ -10,6 +10,7 @@ import AddMovie from './movies/add';
 
 const Content = styled.div`
     padding: 24px;
+    width: 100%;
 `;
 
 const MenuItem = styled.div`
