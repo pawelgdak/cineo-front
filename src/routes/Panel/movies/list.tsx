@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 export default function MoviesList() {
     const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
     const history = useHistory();
 
     const columns: any = [
@@ -58,6 +59,7 @@ export default function MoviesList() {
                             return { ...el, key: el.id };
                         }),
                     );
+                _isMounted && setLoading(false);
             }
 
             return () => (_isMounted = false);
@@ -66,6 +68,8 @@ export default function MoviesList() {
 
     return (
         <Table
+            rowClassName="cursor-pointer"
+            loading={loading}
             onRow={(record, rowIndex) => {
                 return {
                     onClick: () => {
