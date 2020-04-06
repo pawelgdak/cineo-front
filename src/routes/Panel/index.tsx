@@ -7,6 +7,7 @@ import { NavLink, useHistory, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AddMovie from './movies/add';
+import MoviesList from './movies/list';
 
 const Content = styled.div`
     padding: 24px;
@@ -84,7 +85,9 @@ export default function Panel() {
                         <Route path="/panel/movies/add">
                             <AddMovie />
                         </Route>
-                        <Route path="/panel/movies">movies list</Route>
+                        <Route path="/panel/movies">
+                            <MoviesList />
+                        </Route>
                         <Route path="/panel">Panel</Route>
                     </Switch>
                 </Content>
