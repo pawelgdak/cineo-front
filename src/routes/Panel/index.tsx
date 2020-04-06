@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import AddMovie from './movies/add';
 import MoviesList from './movies/list';
 import Movie from './movies/movie';
+import UpdateMovie from './movies/update';
 
 const Content = styled.div`
     padding: 24px;
@@ -85,6 +86,9 @@ export default function Panel() {
                     <Switch>
                         <Route path="/panel/movies/add">
                             <AddMovie />
+                        </Route>
+                        <Route path="/panel/movies/:id/update">
+                            <UpdateMovie />
                         </Route>
                         <Route path="/panel/movies/:id">
                             <Movie />
