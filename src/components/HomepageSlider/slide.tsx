@@ -9,7 +9,7 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url("${props => props.image}");
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url("${(props) => props.image}");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -186,7 +186,7 @@ export default function Slide(props: any) {
                                 <Info>IMDB</Info>
                             </Row>
                             <Row justify={width > 768 ? 'end' : 'start'}>
-                                <Rating>{props.data.imdbRating.toFixed(1)}</Rating>
+                                <Rating>{props.data.imdbScore.toFixed(1)}</Rating>
                             </Row>
                         </Col>
                         <Col xs={24} sm={24} md={7}>
@@ -194,7 +194,7 @@ export default function Slide(props: any) {
                                 <Info>Metacritic</Info>
                             </Row>
                             <Row justify={width > 768 ? 'end' : 'start'}>
-                                <Rating>{props.data.metacriticRating}%</Rating>
+                                <Rating>{props.data.metacriticScore}%</Rating>
                             </Row>
                         </Col>
                     </Ratings>

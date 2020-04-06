@@ -9,9 +9,9 @@ import colors from '../../resources/colors';
 
 const MainContainer = styled.div`
     margin-bottom: 24px;
-    height: ${props => props.height}px;
+    height: ${(props) => props.height}px;
     min-height: 400px;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url("${props => props.image}");
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url("${(props) => props.image}");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -82,13 +82,13 @@ export default function Show(props: { data: IMovieShows }) {
     }, [height]);
 
     return (
-        <MainContainer image={movie.img} height={containerHeight}>
+        <MainContainer image={movie.image} height={containerHeight}>
             <Container>
                 <Title>{movie.title}</Title>
                 <Info>
                     <InfoElement>{movie.duration} min</InfoElement>
                     <InfoElement>{movie.genre}</InfoElement>
-                    <InfoElement>IMDb: {movie.imdbRating.toFixed(1)}</InfoElement>
+                    <InfoElement>IMDb: {movie.imdbScore.toFixed(1)}</InfoElement>
                 </Info>
                 <ShowsContainer gutter="18">
                     {shows.map((show, index) => {

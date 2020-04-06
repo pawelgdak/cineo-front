@@ -55,7 +55,7 @@ const InfoElement = styled.span`
 
 export default function MoviePosterSeparator(props: { movie: IMovie }) {
     const { movie } = props;
-    const { posterImg, duration, imdbRating, title } = movie || {};
+    const { smallImage, duration, imdbScore, title } = movie || {};
 
     // if (!movie) return <Separator />;
 
@@ -65,8 +65,8 @@ export default function MoviePosterSeparator(props: { movie: IMovie }) {
                 <Row gutter={24}>
                     <Col>
                         <ImageContainer>
-                            {posterImg ? (
-                                <Image src={posterImg} />
+                            {smallImage ? (
+                                <Image src={smallImage} />
                             ) : (
                                 <ImageSkeleton>
                                     <Skeleton width={200} height={300} />
@@ -84,8 +84,8 @@ export default function MoviePosterSeparator(props: { movie: IMovie }) {
                                     <Skeleton width={42} />
                                 </div>
                             )}
-                            {imdbRating ? (
-                                <InfoElement>IMDb: {imdbRating.toFixed(1)}</InfoElement>
+                            {imdbScore ? (
+                                <InfoElement>IMDb: {imdbScore.toFixed(1)}</InfoElement>
                             ) : (
                                 <div style={{ display: 'inline-block', marginLeft: 8 }}>
                                     <Skeleton width={42} />
