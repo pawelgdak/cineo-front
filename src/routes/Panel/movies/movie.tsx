@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { get } from '../../../utils/requests';
+import { get, del } from '../../../utils/requests';
 import styled from 'styled-components';
 import IMovie from '../../../interfaces/IMovie';
-import { Row, Col, Descriptions, Spin, Button } from 'antd';
+import { Row, Col, Descriptions, Spin, Button, Modal, message } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const Header = styled.div`
     font-size: 24px;
@@ -37,6 +38,28 @@ export default function Movie(props: any) {
         })();
     }, [id]);
 
+    const showDeleteConfirm = () => {
+        Modal.confirm({
+            title: 'Jesteś pewny/a, że chcesz usunąć ten film?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'Tej operacji nie można cofnąć.',
+            okText: 'Tak',
+            okType: 'danger',
+            cancelText: 'Anuluj',
+            onOk: async () => {
+                try {
+                    const DELETE = await del(`movies/delete/${movie.id}`);
+                    if (DELETE) {
+                        history.push('/panel/movies');
+                    } else message.warning('Coś poszło nie tak.');
+                } catch (err) {
+                    message.warning(err.map ? err.map((error: any) => error) : err.message);
+                }
+            },
+            onCancel() {},
+        });
+    };
+
     if (!movie) return <Spin />;
 
     return (
@@ -49,11 +72,20 @@ export default function Movie(props: any) {
                         </Col>
                         <Col style={{ alignItems: 'center', display: 'flex' }}>
                             <Button
+                                style={{ marginRight: 8 }}
                                 onClick={() => {
                                     history.push(`/panel/movies/${movie.id}/update`);
                                 }}
                             >
                                 Edytuj
+                            </Button>
+                            <Button
+                                type="danger"
+                                onClick={() => {
+                                    showDeleteConfirm();
+                                }}
+                            >
+                                Usuń
                             </Button>
                         </Col>
                     </Row>
