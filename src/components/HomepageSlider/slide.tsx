@@ -111,7 +111,7 @@ const Actor = styled.div`
 `;
 
 export default function Slide(props: any) {
-    const image = props.data.img;
+    const image = props.data.image;
     const history = useHistory();
     const { width } = useWindowDimensions();
 
@@ -169,11 +169,12 @@ export default function Slide(props: any) {
                                 <Info>Obsada</Info>
                             </Row>
                             <Row gutter={[32, 18]}>
-                                {props.data.cast.map((actor: string, index: Number) => (
-                                    <Col span={8} key={index.toString()}>
-                                        <Actor>{actor}</Actor>
-                                    </Col>
-                                ))}
+                                {props.data.cast &&
+                                    props.data.cast.map((actor: string, index: Number) => (
+                                        <Col span={8} key={index.toString()}>
+                                            <Actor>{actor}</Actor>
+                                        </Col>
+                                    ))}
                             </Row>
                         </Col>
                     </Row>
