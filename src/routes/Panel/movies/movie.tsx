@@ -92,11 +92,11 @@ export default function Movie(props: any) {
                 </Col>
             </Row>
             <Row style={{ marginTop: 24 }} gutter={12}>
-                <Col md={6}>
+                <Col md={5}>
                     <Poster src={movie.smallImage} />
                 </Col>
-                <Col md={18}>
-                    <Descriptions column={2}>
+                <Col md={19}>
+                    <Descriptions column={2} bordered>
                         <Descriptions.Item key="director" label="Reżyser">
                             {movie.director}
                         </Descriptions.Item>
