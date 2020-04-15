@@ -85,8 +85,10 @@ export default function Show(props: {}) {
                 Data seansu:{' '}
                 <Underlined>
                     <Popover content={popoverContent} title="Zobacz inne godziny">
-                        {moment.unix(show.date).format('DD.MM.YYYY')}{' '}
-                        <TimeText>{moment.unix(show.date).format('HH:mm')}</TimeText>
+                        <div>
+                            {moment.unix(show.date).format('DD.MM.YYYY')}{' '}
+                            <TimeText>{moment.unix(show.date).format('HH:mm')}</TimeText>
+                        </div>
                     </Popover>
                 </Underlined>{' '}
             </DateText>

@@ -3,6 +3,7 @@ import NavigationBar from '../../components/NavigationBar';
 import Heading from '../../components/Heading';
 import { Layout, Menu } from 'antd';
 import { FaFilm, FaTachometerAlt } from 'react-icons/fa';
+import { IoIosKeypad } from 'react-icons/io';
 import { NavLink, useHistory, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -10,6 +11,9 @@ import AddMovie from './movies/add';
 import MoviesList from './movies/list';
 import Movie from './movies/movie';
 import UpdateMovie from './movies/update';
+
+import RoomsList from './rooms/list';
+import AddRoom from './rooms/add';
 
 const Content = styled.div`
     padding: 24px;
@@ -31,9 +35,6 @@ export default function Panel() {
     const { SubMenu } = Menu;
 
     const history = useHistory();
-    useEffect(() => {
-        console.log(history.location);
-    }, [history]);
 
     return (
         <div>
@@ -80,6 +81,28 @@ export default function Panel() {
                                 </NavLink>
                             </Menu.Item>
                         </SubMenu>
+                        <SubMenu
+                            key="rooms"
+                            title={
+                                <MenuItem>
+                                    <MenuItemIcon>
+                                        <IoIosKeypad />
+                                    </MenuItemIcon>
+                                    Sale
+                                </MenuItem>
+                            }
+                        >
+                            <Menu.Item key="/panel/rooms">
+                                <NavLink to="/panel/rooms" className="nav-text">
+                                    Lista
+                                </NavLink>
+                            </Menu.Item>
+                            <Menu.Item key="/panel/rooms/add">
+                                <NavLink to="/panel/rooms/add" className="nav-text">
+                                    Dodaj
+                                </NavLink>
+                            </Menu.Item>
+                        </SubMenu>
                     </Menu>
                 </Sider>
                 <Content>
@@ -96,6 +119,14 @@ export default function Panel() {
                         <Route path="/panel/movies">
                             <MoviesList />
                         </Route>
+
+                        <Route path="/panel/rooms/add">
+                            <AddRoom />
+                        </Route>
+                        <Route path="/panel/rooms">
+                            <RoomsList />
+                        </Route>
+
                         <Route path="/panel">Panel</Route>
                     </Switch>
                 </Content>

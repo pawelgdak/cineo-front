@@ -215,7 +215,7 @@ export async function get(endpoint: string, options: any = {}): Promise<any> {
                 return API_RESPONSE.data;
             } else return false;
         } catch (err) {
-            if (err.response && err.response.data) {
+            if (err.response && err.response.data && err.response.data.message) {
                 throw new Error(err.response.data.message);
             }
 

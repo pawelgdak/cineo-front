@@ -80,10 +80,12 @@ export default function Navigation() {
             <NavLink to="/seanse" active={(location.pathname === '/seanse').toString()}>
                 <NavItem>SEANSE</NavItem>
             </NavLink>
-            {user && (
+            {user && user.permission === 0 ? (
                 <NavLink to="/panel" active={(location.pathname === '/panel').toString()}>
                     <NavItem>PANEL</NavItem>
                 </NavLink>
+            ) : (
+                <div />
             )}
             <NavLink
                 style={{ marginRight: 0 }}
