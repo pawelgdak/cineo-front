@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
 import Seat from './Seat';
@@ -8,12 +8,20 @@ const Container = styled.div`
     padding: 12px;
 `;
 
+const Info = styled.div`
+    margin-top: 12px;
+    font-family: 'Poppins';
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+`;
+
 const CustomRow = styled.div`
     display: flex;
     justify-content: flex-start;
     margin: 2% 0;
 
-    &:last-child() {
+    &:nth-child(${(props) => props.rows}) {
         margin-bottom: 0;
     }
 
@@ -37,11 +45,18 @@ const CustomCol = styled.div`
     width: ${(props) => props.width}%;
 `;
 
-export default function SeatChart(props: { map: string }) {
+export default forwardRef(function SeatChart(props: { map: string }, ref) {
     const { map } = props;
 
     const [seatMap, setSeatMap] = useState([]);
     const [columns, setColumns] = useState(0);
+    const [seats, setSeats] = useState([]);
+
+    useImperativeHandle(ref, () => ({
+        getSeats() {
+            return seats;
+        },
+    }));
 
     useEffect(() => {
         let temp: any = [];
@@ -70,7 +85,32 @@ export default function SeatChart(props: { map: string }) {
 
         setSeatMap(temp);
         setColumns(maxColumns);
+
+        generateSeatsObjects(temp);
     }, [map]);
+
+    const generateSeatsObjects = (seatMap: any) => {
+        let seats = [];
+        for (let row = 0; row < seatMap.length; row++) {
+            for (let col = 0; col < seatMap[row].length; col++) {
+                let character = seatMap[row][col];
+
+                if (character !== '_') {
+                    let seat = {
+                        id: `${row}_${col}`,
+                        col,
+                        row,
+                        character,
+                    };
+
+                    seats.push(seat);
+                }
+            }
+        }
+        setSeats(seats);
+
+        return seats;
+    };
 
     const generateSeatChart = () => {
         let chart: any = [];
@@ -93,7 +133,7 @@ export default function SeatChart(props: { map: string }) {
             }
 
             chart.push(
-                <CustomRow gutter={[12, 12]} key={`row-${row}`}>
+                <CustomRow rows={seatMap.length} gutter={[12, 12]} key={`row-${row}`}>
                     {seats}
                 </CustomRow>,
             );
@@ -102,5 +142,14 @@ export default function SeatChart(props: { map: string }) {
         return chart;
     };
 
-    return <Container>{generateSeatChart()}</Container>;
-}
+    return (
+        <Container>
+            {generateSeatChart()}
+            <Info>
+                <div>Rzędów: {seatMap.length}</div>
+                <div>Kolumn: {columns}</div>
+                <div>Miejsc: {seats.length}</div>
+            </Info>
+        </Container>
+    );
+});

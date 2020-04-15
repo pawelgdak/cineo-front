@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Row, Col, Form, Input, Button, message } from 'antd';
 import styled from 'styled-components';
 import { post } from '../../../utils/requests';
 import { useHistory } from 'react-router-dom';
 
-import SeatChart from '../../../components/SeatChart';
+import SeatChart from '../../../components/SeatChartCreator';
 
 const Header = styled.div`
     font-size: 24px;
@@ -20,13 +20,20 @@ const Label = styled.div`
     font-size: 14px;
 `;
 
+const TextArea = styled(Input.TextArea)`
+    font-family: 'Courier';
+`;
+
 export default function AddRoom() {
     const [loading, setLoading] = useState(false);
     const history = useHistory();
+    const seatChartRef: any = useRef();
 
-    const [map, setMap] = useState(`AAAAA__AA\nAAAAA__A\nAAAAA__A\nAAAAAAAA`);
+    const [map, setMap] = useState(`AAAAA__A\nAAAAA__A\nAAAAA__A\nAAAAAAAA`);
 
-    const handleForm = () => {};
+    const handleForm = () => {
+        console.log(seatChartRef.current.getSeats());
+    };
 
     return (
         <Container>
@@ -49,11 +56,7 @@ export default function AddRoom() {
                     <Row>
                         <Col span={24}>
                             <Label>Mapa</Label>
-                            <Input.TextArea
-                                onChange={(e) => setMap(e.target.value)}
-                                value={map}
-                                rows={8}
-                            ></Input.TextArea>
+                            <TextArea onChange={(e: any) => setMap(e.target.value)} value={map} rows={8}></TextArea>
                         </Col>
                     </Row>
                 </Col>
@@ -61,7 +64,7 @@ export default function AddRoom() {
                     <Row>
                         <Col span={24}>
                             <Label>Podgląd</Label>
-                            <SeatChart map={map} />
+                            <SeatChart ref={seatChartRef} map={map} />
                         </Col>
                     </Row>
                 </Col>
