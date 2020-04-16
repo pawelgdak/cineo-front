@@ -8,6 +8,17 @@ const Container = styled.div`
     padding: 12px;
 `;
 
+const Legend = styled.div`
+    margin-top: 16px;
+`;
+
+const LegendIcon = styled.div`
+    width: 16px;
+    padding-top: 100%;
+    border-radius: 3px;
+    background-color: ${(props) => props.color};
+`;
+
 const Screen = styled.div`
     width: 100%;
     background: #aaa;
@@ -22,14 +33,6 @@ const Screen = styled.div`
     letter-spacing: 2px;
     color: white;
     font-family: 'Poppins';
-`;
-
-const Info = styled.div`
-    margin-top: 12px;
-    font-family: 'Poppins';
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
 `;
 
 const CustomRow = styled.div`
@@ -61,18 +64,27 @@ const CustomCol = styled.div`
     width: ${(props) => props.width}%;
 `;
 
-export default forwardRef(function SeatChart(props: { map: string }, ref) {
-    const { map } = props;
+export default forwardRef(function SeatChart(
+    props: { map: string; seatsTaken: Array<any>; selectedSeats: Array<any>; setSelectedSeats: Function },
+    ref,
+) {
+    const { map, seatsTaken, selectedSeats, setSelectedSeats } = props;
 
     const [seatMap, setSeatMap] = useState([]);
     const [columns, setColumns] = useState(0);
-    const [seats, setSeats] = useState([]);
 
-    useImperativeHandle(ref, () => ({
-        getSeats() {
-            return seats;
-        },
-    }));
+    const seatSelected = (seat: any) => {
+        let seatIndex = selectedSeats.findIndex((s) => s.row === seat.row && s.col === seat.col);
+
+        if (seatIndex === -1) {
+            setSelectedSeats([...selectedSeats, seat]);
+        } else {
+            let temp = [...selectedSeats];
+            temp.splice(seatIndex, 1);
+
+            setSelectedSeats(temp);
+        }
+    };
 
     useEffect(() => {
         let temp: any = [];
@@ -96,36 +108,26 @@ export default forwardRef(function SeatChart(props: { map: string }, ref) {
                 temp[row] = [];
             }
 
-            temp[row].push(map.charAt(i));
+            temp[row].push({
+                character: map.charAt(i),
+                id: `${row}_${i}`,
+                col: maxColumnsTemp - 1,
+                row,
+                taken: false,
+            });
         }
+
+        seatsTaken.forEach((seat) => {
+            if (typeof temp[seat.row] != 'undefined' && typeof temp[seat.row][seat.col] != 'undefined') {
+                if (temp[seat.row][seat.col].character === '_') return;
+
+                temp[seat.row][seat.col].taken = true;
+            }
+        });
 
         setSeatMap(temp);
         setColumns(maxColumns);
-
-        generateSeatsObjects(temp);
-    }, [map]);
-
-    const generateSeatsObjects = (seatMap: any) => {
-        let seats = [];
-        for (let row = 0; row < seatMap.length; row++) {
-            if (typeof seatMap[row] != 'undefined') {
-                for (let col = 0; col < seatMap[row].length; col++) {
-                    let character = seatMap[row][col];
-                    if (character !== '_') {
-                        let seat = {
-                            id: `${row}_${col}`,
-                            col,
-                            row,
-                            character,
-                        };
-                        seats.push(seat);
-                    }
-                }
-            }
-        }
-        setSeats(seats);
-        return seats;
-    };
+    }, [map, seatsTaken]);
 
     const generateSeatChart = () => {
         let chart: any = [];
@@ -135,11 +137,18 @@ export default forwardRef(function SeatChart(props: { map: string }, ref) {
 
             if (typeof seatMap[row] != 'undefined') {
                 for (let col = 0; col < seatMap[row].length; col++) {
-                    let character = seatMap[row][col];
+                    let seat = seatMap[row][col];
 
                     seats.push(
                         <CustomCol columns={columns} width={100 / columns} key={`row-${row}-col-${col}`}>
-                            <Seat type={character}></Seat>
+                            <Seat
+                                selected={
+                                    props.selectedSeats.findIndex((s) => s.col === seat.col && s.row === seat.row) !==
+                                    -1
+                                }
+                                seatSelected={seatSelected}
+                                data={seat}
+                            ></Seat>
                         </CustomCol>,
                     );
                 }
@@ -165,11 +174,26 @@ export default forwardRef(function SeatChart(props: { map: string }, ref) {
         <Container>
             <Screen>Ekran</Screen>
             {generateSeatChart()}
-            <Info>
-                <div>Rzędów: {seatMap.length}</div>
-                <div>Kolumn: {columns}</div>
-                <div>Miejsc: {seats.length}</div>
-            </Info>
+            <Legend>
+                <Row align="middle" gutter={8}>
+                    <Col>
+                        <LegendIcon color="goldenrod"></LegendIcon>
+                    </Col>
+                    <Col>Miejsce wolne</Col>
+                </Row>
+                <Row align="middle" gutter={8}>
+                    <Col>
+                        <LegendIcon color="#006d80"></LegendIcon>
+                    </Col>
+                    <Col>Miejsce wybrane</Col>
+                </Row>
+                <Row align="middle" gutter={8}>
+                    <Col>
+                        <LegendIcon color="#eee"></LegendIcon>
+                    </Col>
+                    <Col>Miejsce zajęte</Col>
+                </Row>
+            </Legend>
         </Container>
     );
 });

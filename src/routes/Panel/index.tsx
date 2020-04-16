@@ -14,6 +14,7 @@ import UpdateMovie from './movies/update';
 
 import RoomsList from './rooms/list';
 import AddRoom from './rooms/add';
+import SeatSelector from '../../components/SeatSelector';
 
 const Content = styled.div`
     padding: 24px;
@@ -127,7 +128,9 @@ export default function Panel() {
                             <RoomsList />
                         </Route>
 
-                        <Route path="/panel">Panel</Route>
+                        <Route path="/panel">
+                            <SeatSelector />
+                        </Route>
                     </Switch>
                 </Content>
             </Layout>
