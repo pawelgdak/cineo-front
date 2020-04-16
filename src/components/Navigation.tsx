@@ -9,6 +9,23 @@ import { Modal } from 'antd';
 
 const Container = styled.div`
     display: flex;
+
+    @media (max-width: 992px) {
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: ${(props) => props.left};
+        width: calc(100% - 160px);
+        z-index: 99;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 24px 0;
+        transition: left 0.5s;
+    }
+
+    @media (max-width: 576px) {
+        width: calc(100% - 80px);
+    }
 `;
 
 const NavItem = styled.span`
@@ -51,7 +68,7 @@ const NavLink = styled(Link)`
     }}
 `;
 
-export default function Navigation() {
+export default function Navigation(props: any) {
     const location = useLocation();
     const [visible, setVisible] = useState(false);
 
@@ -73,7 +90,7 @@ export default function Navigation() {
     };
 
     return (
-        <Container>
+        <Container left={props.left}>
             <NavLink to="/" active={(location.pathname === '/').toString()}>
                 <NavItem>STRONA GŁÓWNA</NavItem>
             </NavLink>
@@ -89,6 +106,7 @@ export default function Navigation() {
             )}
             <NavLink
                 style={{ marginRight: 0 }}
+                active={(location.pathname === '/user').toString()}
                 to={user ? '/user' : location.pathname}
                 onClick={() => !user && setVisible(true)}
             >
@@ -97,7 +115,7 @@ export default function Navigation() {
                 </NavItem>
             </NavLink>
             {user && (
-                <NavLink style={{ marginLeft: 0 }} to={location.pathname} onClick={() => handleLogout()}>
+                <NavLink to={location.pathname} onClick={() => handleLogout()}>
                     <NavItem>
                         <LogoutOutlined />
                     </NavItem>

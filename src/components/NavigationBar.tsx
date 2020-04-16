@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Navigation from './Navigation';
 import logoImage from '../resources/logo.png';
 import { useLocation } from 'react-router-dom';
 import colors from '../resources/colors';
+import { HamburgerButton } from 'react-hamburger-button';
 
 const Container = styled.div`
     display: flex;
@@ -21,7 +22,15 @@ const Container = styled.div`
             : colors.dark};
 
     @media (max-width: 576px) {
-        padding: 16px 24px;
+        padding: 32px 24px;
+    }
+`;
+
+const BurgerButton = styled.div`
+    visibility: hidden;
+
+    @media (max-width: 992px) {
+        visibility: visible;
     }
 `;
 
@@ -40,10 +49,20 @@ export default function NavigationBar(props: { transparent?: boolean; fixed?: bo
     const fixed = props.fixed ? props.fixed : false;
     const absolute = props.absolute ? props.absolute : false;
 
+    const [burgerState, setBurgerState] = useState(false);
+
+    const burgerClick = () => {
+        setBurgerState((state) => !state);
+    };
+
     return (
         <Container transparent={transparent} absolute={absolute} fixed={fixed} location={location}>
             <Logo src={logoImage} />
-            <Navigation />
+            <BurgerButton>
+                <HamburgerButton color="#aaa" width={28} height={16} open={burgerState} onClick={burgerClick} />
+            </BurgerButton>
+
+            <Navigation left={burgerState ? 0 : '-100%'} />
         </Container>
     );
 }
