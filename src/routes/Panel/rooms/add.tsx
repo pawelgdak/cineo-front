@@ -29,10 +29,16 @@ export default function AddRoom() {
     const history = useHistory();
     const seatChartRef: any = useRef();
 
-    const [map, setMap] = useState(`AAAAA__A\nAAAAA__A\nAAAAA__A\nAAAAAAAA`);
+    const [map, setMap]: [string, Function] = useState(`AAAAA__A\nAAAAA__A\nAAAAA__A\nAAAAAAAA`);
 
     const handleForm = () => {
         console.log(seatChartRef.current.getSeats());
+    };
+
+    const handleMapChange = (e: React.FormEvent<HTMLInputElement>) => {
+        let value: string = e.currentTarget.value;
+
+        setMap(value);
     };
 
     return (
@@ -56,7 +62,7 @@ export default function AddRoom() {
                     <Row>
                         <Col span={24}>
                             <Label>Mapa</Label>
-                            <TextArea onChange={(e: any) => setMap(e.target.value)} value={map} rows={8}></TextArea>
+                            <TextArea onChange={handleMapChange} value={map} rows={8}></TextArea>
                         </Col>
                     </Row>
                 </Col>

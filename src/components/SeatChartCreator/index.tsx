@@ -92,23 +92,22 @@ export default forwardRef(function SeatChart(props: { map: string }, ref) {
     const generateSeatsObjects = (seatMap: any) => {
         let seats = [];
         for (let row = 0; row < seatMap.length; row++) {
-            for (let col = 0; col < seatMap[row].length; col++) {
-                let character = seatMap[row][col];
-
-                if (character !== '_') {
-                    let seat = {
-                        id: `${row}_${col}`,
-                        col,
-                        row,
-                        character,
-                    };
-
-                    seats.push(seat);
+            if (typeof seatMap[row] != 'undefined') {
+                for (let col = 0; col < seatMap[row].length; col++) {
+                    let character = seatMap[row][col];
+                    if (character !== '_') {
+                        let seat = {
+                            id: `${row}_${col}`,
+                            col,
+                            row,
+                            character,
+                        };
+                        seats.push(seat);
+                    }
                 }
             }
         }
         setSeats(seats);
-
         return seats;
     };
 
@@ -118,18 +117,22 @@ export default forwardRef(function SeatChart(props: { map: string }, ref) {
         for (let row = 0; row < seatMap.length; row++) {
             let seats: any = [];
 
-            for (let col = 0; col < seatMap[row].length; col++) {
-                let character = seatMap[row][col];
+            if (typeof seatMap[row] != 'undefined') {
+                for (let col = 0; col < seatMap[row].length; col++) {
+                    let character = seatMap[row][col];
 
-                seats.push(
-                    <CustomCol columns={columns} width={100 / columns} key={`row-${row}-col-${col}`}>
-                        <Seat type={character}></Seat>
-                    </CustomCol>,
-                );
-            }
+                    seats.push(
+                        <CustomCol columns={columns} width={100 / columns} key={`row-${row}-col-${col}`}>
+                            <Seat type={character}></Seat>
+                        </CustomCol>,
+                    );
+                }
 
-            for (let i = 0; i < columns - seatMap[row].length; i++) {
-                seats.push(<CustomCol columns={columns} width={100 / columns} key={`row-${row}-add-${i}`}></CustomCol>);
+                for (let i = 0; i < columns - seatMap[row].length; i++) {
+                    seats.push(
+                        <CustomCol columns={columns} width={100 / columns} key={`row-${row}-add-${i}`}></CustomCol>,
+                    );
+                }
             }
 
             chart.push(
