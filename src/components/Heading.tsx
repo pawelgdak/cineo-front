@@ -5,7 +5,7 @@ import { Col, Row } from 'antd';
 const StyledHeading = styled(Col)`
     font-family: 'Poppins';
     font-weight: 500;
-    font-size: 48px;
+    font-size: 2em;
     color: rgba(0, 0, 0, 0.8);
     margin-top: 24px;
     margin-bottom: 24px;

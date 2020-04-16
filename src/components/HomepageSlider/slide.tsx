@@ -33,11 +33,22 @@ const Overlay = styled.div`
 
 const Content = styled.div`
     padding: 0 64px;
+
+    @media (max-width: 576px) {
+        padding: 0 24px;
+        padding-top: 200px;
+    }
+
     padding-top: 200px;
 `;
 
 const Footer = styled(Row)`
     padding: 0 64px;
+
+    @media (max-width: 576px) {
+        padding: 0 24px;
+        padding-bottom: 64px;
+    }
 `;
 
 const Ratings = styled(Row)``;
