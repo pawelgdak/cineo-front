@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import NavigationBar from '../../components/NavigationBar';
 import Heading from '../../components/Heading';
 import { Layout, Menu } from 'antd';
-import { FaFilm, FaTachometerAlt } from 'react-icons/fa';
+import { FaFilm, FaTachometerAlt, FaPlay } from 'react-icons/fa';
 import { IoIosKeypad } from 'react-icons/io';
 import { NavLink, useHistory, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
@@ -15,6 +15,8 @@ import UpdateMovie from './movies/update';
 import RoomsList from './rooms/list';
 import AddRoom from './rooms/add';
 import SeatSelector from '../../components/SeatSelector';
+import AddShow from './shows/add';
+import ShowsList from '../../components/ShowsList';
 
 const Content = styled.div`
     padding: 24px;
@@ -83,6 +85,28 @@ export default function Panel() {
                             </Menu.Item>
                         </SubMenu>
                         <SubMenu
+                            key="shows"
+                            title={
+                                <MenuItem>
+                                    <MenuItemIcon>
+                                        <FaPlay />
+                                    </MenuItemIcon>
+                                    Seanse
+                                </MenuItem>
+                            }
+                        >
+                            <Menu.Item key="/panel/shows">
+                                <NavLink to="/panel/shows" className="nav-text">
+                                    Lista
+                                </NavLink>
+                            </Menu.Item>
+                            <Menu.Item key="/panel/shows/add">
+                                <NavLink to="/panel/shows/add" className="nav-text">
+                                    Dodaj
+                                </NavLink>
+                            </Menu.Item>
+                        </SubMenu>
+                        <SubMenu
                             key="rooms"
                             title={
                                 <MenuItem>
@@ -119,6 +143,13 @@ export default function Panel() {
                         </Route>
                         <Route path="/panel/movies">
                             <MoviesList />
+                        </Route>
+
+                        <Route path="/panel/shows/add">
+                            <AddShow />
+                        </Route>
+                        <Route path="/panel/shows">
+                            <ShowsList />
                         </Route>
 
                         <Route path="/panel/rooms/add">
