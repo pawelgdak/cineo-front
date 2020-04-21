@@ -16,7 +16,7 @@ import RoomsList from './rooms/list';
 import AddRoom from './rooms/add';
 import SeatSelector from '../../components/SeatSelector';
 import AddShow from './shows/add';
-import ShowsList from '../../components/ShowsList';
+import ShowsList from './shows/list';
 
 const Content = styled.div`
     padding: 24px;

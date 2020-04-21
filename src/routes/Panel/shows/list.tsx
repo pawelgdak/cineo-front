@@ -11,14 +11,34 @@ export default function ShowsList() {
 
     const columns: any = [
         {
-            title: 'Numer sali',
-            dataIndex: 'id',
-            key: 'id',
+            title: 'Film',
+            dataIndex: 'movie',
+            key: 'movie',
         },
         {
-            title: 'Liczba miejsc',
-            dataIndex: 'seats_count',
-            key: 'seats_count',
+            title: 'Sala',
+            dataIndex: 'room',
+            key: 'room',
+        },
+        {
+            title: 'Data',
+            dataIndex: 'date',
+            key: 'date',
+        },
+        {
+            title: 'Język filmu',
+            dataIndex: 'language',
+            key: 'language',
+        },
+        {
+            title: 'Język napisów',
+            dataIndex: 'subtitles',
+            key: 'subtitles',
+        },
+        {
+            title: 'Cena',
+            dataIndex: 'price',
+            key: 'price',
         },
     ];
 
