@@ -113,9 +113,9 @@ export default forwardRef(function SeatChart(props: { map: string }, ref) {
                     let character = seatMap[row][col];
                     if (character !== '_') {
                         let seat = {
-                            id: `${row}_${col}`,
-                            col,
-                            row,
+                            // id: `${row}_${col}`,
+                            col: col + 1,
+                            row: col + 1,
                             character,
                         };
                         seats.push(seat);

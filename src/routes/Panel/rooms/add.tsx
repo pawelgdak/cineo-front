@@ -31,8 +31,22 @@ export default function AddRoom() {
 
     const [map, setMap]: [string, Function] = useState(`AAAAA__A\nAAAAA__A\nAAAAA__A\nAAAAAAAA`);
 
-    const handleForm = () => {
-        console.log(seatChartRef.current.getSeats());
+    const handleForm = async () => {
+        const seats = seatChartRef.current.getSeats();
+        try {
+            const API_RESPONSE = await post('room/add', {
+                seatmap: map,
+                seats,
+            });
+
+            if (API_RESPONSE) {
+                message.success('Pomyślnie dodano salę.');
+                history.push('/panel/rooms');
+            } else message.warning('Coś poszło nie tak.');
+        } catch (err) {
+            message.warning(err.map ? err.map((error: any) => error) : err.message);
+            setLoading(false);
+        }
     };
 
     const handleMapChange = (e: React.FormEvent<HTMLInputElement>) => {
