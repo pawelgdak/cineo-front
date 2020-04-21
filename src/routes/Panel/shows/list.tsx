@@ -3,6 +3,7 @@ import { Table } from 'antd';
 import { get } from '../../../utils/requests';
 import IMovie from '../../../interfaces/IMovie';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 export default function ShowsList() {
     const [movies, setMovies] = useState([]);
@@ -13,17 +14,18 @@ export default function ShowsList() {
         {
             title: 'Film',
             dataIndex: 'movie',
-            key: 'movie',
+            key: 'movieId',
         },
         {
             title: 'Sala',
             dataIndex: 'room',
-            key: 'room',
+            key: 'roomId',
         },
         {
             title: 'Data',
-            dataIndex: 'date',
+            dataIndex: 'dateAndTimeOfShows',
             key: 'date',
+            render: (date: Date) => <span>{moment(date).format('YYYY-MM-DD HH:mm:ss')}</span>,
         },
         {
             title: 'Język filmu',
@@ -46,7 +48,7 @@ export default function ShowsList() {
     useEffect(() => {
         _isMounted = true;
         (async () => {
-            const API_RESPONSE = await get('movies/getall');
+            const API_RESPONSE = await get('shows/getall');
             if (API_RESPONSE) {
                 _isMounted &&
                     setMovies(
