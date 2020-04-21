@@ -9,6 +9,7 @@ const Container = styled.div`
 
     ${(props) => {
         if (props.taken) return;
+        if (props.character === '_') return;
 
         if (props.selected) {
             return `
@@ -44,11 +45,18 @@ export default function Seat(props: { data: any; seatSelected: Function; selecte
 
     const handleClick = () => {
         if (props.data.taken) return;
+        if (props.data.character === '_') return;
 
         props.seatSelected(props.data);
     };
 
     return (
-        <Container selected={props.selected} onClick={handleClick} taken={props.data.taken} color={color}></Container>
+        <Container
+            character={props.data.character}
+            selected={props.selected}
+            onClick={handleClick}
+            taken={props.data.taken}
+            color={color}
+        ></Container>
     );
 }
