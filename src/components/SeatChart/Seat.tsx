@@ -10,6 +10,7 @@ const Container = styled.div`
     ${(props) => {
         if (props.taken) return;
         if (props.character === '_') return;
+        if (!props.selectable) return;
 
         if (props.selected) {
             return `
@@ -33,7 +34,7 @@ const Container = styled.div`
     }}
 `;
 
-export default function Seat(props: { data: any; seatSelected: Function; selected: Boolean }) {
+export default function Seat(props: { data: any; seatSelected: Function; selected: Boolean; selectable: Boolean }) {
     let color = 'goldenrod';
     if (props.data.character === '_') {
         color = 'transparent';
@@ -44,6 +45,7 @@ export default function Seat(props: { data: any; seatSelected: Function; selecte
     }
 
     const handleClick = () => {
+        if (!props.selectable) return;
         if (props.data.taken) return;
         if (props.data.character === '_') return;
 
@@ -52,6 +54,7 @@ export default function Seat(props: { data: any; seatSelected: Function; selecte
 
     return (
         <Container
+            selectable={props.selectable}
             character={props.data.character}
             selected={props.selected}
             onClick={handleClick}

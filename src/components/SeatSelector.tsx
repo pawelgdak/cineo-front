@@ -42,6 +42,7 @@ export default function SeatSelector() {
         <Row gutter={[16, 16]}>
             <Col xs={24} sm={24} md={24} lg={12}>
                 <SeatChart
+                    selectable={true}
                     setSelectedSeats={setSelectedSeats}
                     selectedSeats={selectedSeats}
                     seatsTaken={seatsTaken}

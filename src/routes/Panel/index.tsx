@@ -17,6 +17,7 @@ import AddRoom from './rooms/add';
 import SeatSelector from '../../components/SeatSelector';
 import AddShow from './shows/add';
 import ShowsList from './shows/list';
+import Room from './rooms/room';
 
 const Content = styled.div`
     padding: 24px;
@@ -152,6 +153,9 @@ export default function Panel() {
                             <ShowsList />
                         </Route>
 
+                        <Route path="/panel/rooms/:id">
+                            <Room />
+                        </Route>
                         <Route path="/panel/rooms/add">
                             <AddRoom />
                         </Route>

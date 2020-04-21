@@ -65,7 +65,13 @@ const CustomCol = styled.div`
 `;
 
 export default forwardRef(function SeatChart(
-    props: { map: string; seatsTaken: Array<any>; selectedSeats: Array<any>; setSelectedSeats: Function },
+    props: {
+        map: string;
+        seatsTaken?: Array<any>;
+        selectedSeats?: Array<any>;
+        setSelectedSeats?: Function;
+        selectable?: Boolean;
+    },
     ref,
 ) {
     const { map, seatsTaken, selectedSeats, setSelectedSeats } = props;
@@ -117,13 +123,14 @@ export default forwardRef(function SeatChart(
             });
         }
 
-        seatsTaken.forEach((seat) => {
-            if (typeof temp[seat.row] != 'undefined' && typeof temp[seat.row][seat.col] != 'undefined') {
-                if (temp[seat.row][seat.col].character === '_') return;
+        seatsTaken &&
+            seatsTaken.forEach((seat) => {
+                if (typeof temp[seat.row] != 'undefined' && typeof temp[seat.row][seat.col] != 'undefined') {
+                    if (temp[seat.row][seat.col].character === '_') return;
 
-                temp[seat.row][seat.col].taken = true;
-            }
-        });
+                    temp[seat.row][seat.col].taken = true;
+                }
+            });
 
         setSeatMap(temp);
         setColumns(maxColumns);
@@ -142,9 +149,13 @@ export default forwardRef(function SeatChart(
                     seats.push(
                         <CustomCol columns={columns} width={100 / columns} key={`row-${row}-col-${col}`}>
                             <Seat
+                                selectable={props.selectable}
                                 selected={
-                                    props.selectedSeats.findIndex((s) => s.col === seat.col && s.row === seat.row) !==
-                                    -1
+                                    props.selectedSeats
+                                        ? props.selectedSeats.findIndex(
+                                              (s) => s.col === seat.col && s.row === seat.row,
+                                          ) !== -1
+                                        : false
                                 }
                                 seatSelected={seatSelected}
                                 data={seat}
