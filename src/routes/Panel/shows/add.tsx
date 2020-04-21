@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { post, get } from '../../../utils/requests';
 import { useHistory } from 'react-router-dom';
 import IMovie from '../../../interfaces/IMovie';
+import IRoom from '../../../interfaces/IRoom';
 
 const { Option } = Select;
 
@@ -55,11 +56,22 @@ export default function AddShow() {
                 _isMounted && setLoading(false);
             }
 
+            const API_RESPONSE_ROOMS = await get('room/getall');
+            if (API_RESPONSE_ROOMS) {
+                _isMounted &&
+                    setRooms(
+                        API_RESPONSE.map((el: IRoom) => {
+                            return { ...el, key: el.id };
+                        }),
+                    );
+                _isMounted && setLoading(false);
+            }
+
             return () => (_isMounted = false);
         })();
     }, []);
 
-    const handleForm = () => {
+    const handleForm = async () => {
         setLoading(true);
 
         if (
@@ -73,6 +85,25 @@ export default function AddShow() {
             price.length == 0
         ) {
             message.warning('Musisz wypełnić wszystkie pola!');
+            setLoading(false);
+        }
+
+        try {
+            const API_RESPONSE = await post('shows/add', {
+                movieId: movie,
+                roomId: room,
+                language: language || '-',
+                subtitles: subtitles || '-',
+                price,
+                dateAndTimeOfShows: date,
+            });
+
+            if (API_RESPONSE) {
+                message.success('Pomyślnie dodano seans.');
+                history.push('/panel/shows');
+            } else message.warning('Coś poszło nie tak.');
+        } catch (err) {
+            message.warning(err.map ? err.map((error: any) => error) : err.message);
             setLoading(false);
         }
     };
@@ -124,7 +155,7 @@ export default function AddShow() {
                             <Label>Sala</Label>
                             <Select
                                 disabled={loading}
-                                onSelect={(val) => setMovie(val)}
+                                onSelect={(val) => setRoom(val)}
                                 showSearch
                                 style={{ width: '100%' }}
                                 placeholder="Sala numer #1"
