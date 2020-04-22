@@ -34,8 +34,29 @@ export default function ShowsList() {
     useEffect(() => {
         (async () => {
             try {
-                const API_RESPONSE = await get('movieshows', { useToken: false });
-                isMounted && setShows(API_RESPONSE);
+                const API_RESPONSE = await get(`show/getdate/${date.format('YYYY-MM-DD')}`, { useToken: false });
+
+                if (API_RESPONSE) {
+                    let temp: any = [];
+
+                    API_RESPONSE.forEach((el: any) => {
+                        if (temp.find((x: any) => x.movie.id === el.id)) {
+                            temp.find((x: any) => x.movie.id === el.id).shows.push({
+                                date: el.dateAndTimeOfShows,
+                                id: el.showId,
+                            });
+                        } else {
+                            temp.push({
+                                movie: el,
+                                shows: [{ date: el.dateAndTimeOfShows, id: el.showId }],
+                            });
+                        }
+                    });
+
+                    console.log(temp);
+                }
+
+                // isMounted && setShows(API_RESPONSE);
                 isMounted && setContentLoading(false);
             } catch (err) {
                 console.error(err);
