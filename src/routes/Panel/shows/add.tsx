@@ -89,7 +89,7 @@ export default function AddShow() {
         }
 
         try {
-            const API_RESPONSE = await post('shows/add', {
+            const API_RESPONSE = await post('show/add', {
                 movieId: movie,
                 roomId: room,
                 language: language || '-',

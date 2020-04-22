@@ -50,7 +50,7 @@ export default function Panel() {
                         //@ts-ignore
                         selectedKeys={[history.location.pathname]}
                         mode="inline"
-                        defaultOpenKeys={['movies']}
+                        defaultOpenKeys={['movies', 'rooms', 'shows']}
                         style={{ height: '100%' }}
                     >
                         <Menu.Item key="/panel">
@@ -153,11 +153,11 @@ export default function Panel() {
                             <ShowsList />
                         </Route>
 
-                        <Route path="/panel/rooms/:id">
-                            <Room />
-                        </Route>
                         <Route path="/panel/rooms/add">
                             <AddRoom />
+                        </Route>
+                        <Route path="/panel/rooms/:id">
+                            <Room />
                         </Route>
                         <Route path="/panel/rooms">
                             <RoomsList />

@@ -7,18 +7,24 @@ import moment from 'moment';
 
 export default function ShowsList() {
     const [movies, setMovies] = useState([]);
+    const [shows, setShows] = useState([]);
     const [loading, setLoading] = useState(true);
     const history = useHistory();
 
     const columns: any = [
         {
             title: 'Film',
-            dataIndex: 'movie',
+            dataIndex: 'movieId',
             key: 'movieId',
+            render: (id: Number) => {
+                let movie: IMovie = movies.find((m) => m.id === id);
+                if (movie) return movie.title;
+                return '-';
+            },
         },
         {
             title: 'Sala',
-            dataIndex: 'room',
+            dataIndex: 'roomId',
             key: 'roomId',
         },
         {
@@ -48,14 +54,20 @@ export default function ShowsList() {
     useEffect(() => {
         _isMounted = true;
         (async () => {
-            const API_RESPONSE = await get('shows/getall');
+            const API_RESPONSE = await get('show/getall');
             if (API_RESPONSE) {
                 _isMounted &&
-                    setMovies(
+                    setShows(
                         API_RESPONSE.map((el: IMovie) => {
                             return { ...el, key: el.id };
                         }),
                     );
+                _isMounted && setLoading(false);
+            }
+
+            const API_RESPONSE_MOVIES = await get('movies/getall');
+            if (API_RESPONSE_MOVIES) {
+                _isMounted && setMovies(API_RESPONSE_MOVIES);
                 _isMounted && setLoading(false);
             }
 
@@ -70,11 +82,11 @@ export default function ShowsList() {
             onRow={(record, rowIndex) => {
                 return {
                     onClick: () => {
-                        history.push(`/panel/movies/${record.id}`);
+                        history.push(`/panel/shows/${record.id}`);
                     },
                 };
             }}
-            dataSource={movies}
+            dataSource={shows}
             columns={columns}
         />
     );
