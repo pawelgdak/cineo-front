@@ -2,7 +2,10 @@ import IMovie from './IMovie';
 
 export default interface IShow {
     id: number;
-    movie?: IMovie;
-    hall: number;
-    date: number;
+    movieId: number;
+    roomId: number;
+    dateAndTimeOfShows: number;
+    language: string;
+    subtitles: string;
+    price: number;
 }

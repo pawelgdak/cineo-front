@@ -70,7 +70,7 @@ const StyledButton = styled(Button)`
     }
 `;
 
-export default function Show(props: { data: IMovieShows }) {
+export default function Show(props: { data: any }) {
     const { data } = props;
     const { movie, shows } = data;
     const { height, width } = useWindowDimensions();
@@ -91,7 +91,7 @@ export default function Show(props: { data: IMovieShows }) {
                     <InfoElement>IMDb: {movie.imdbScore.toFixed(1)}</InfoElement>
                 </Info>
                 <ShowsContainer gutter="18">
-                    {shows.map((show, index) => {
+                    {shows.map((show: any, index: number) => {
                         return (
                             <ShowElement key={`show-${index}`}>
                                 <StyledButton

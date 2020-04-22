@@ -68,7 +68,6 @@ export default function ShowsList() {
             const API_RESPONSE_MOVIES = await get('movies/getall');
             if (API_RESPONSE_MOVIES) {
                 _isMounted && setMovies(API_RESPONSE_MOVIES);
-                _isMounted && setLoading(false);
             }
 
             return () => (_isMounted = false);
