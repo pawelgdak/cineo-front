@@ -99,7 +99,7 @@ export default function Show(props: { data: IMovieShows }) {
                                     size="small"
                                     type="ghost"
                                 >
-                                    {moment.unix(show.date).format('HH:mm')}
+                                    {moment(show.date).format('HH:mm')}
                                 </StyledButton>
                             </ShowElement>
                         );

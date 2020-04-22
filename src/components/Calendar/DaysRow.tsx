@@ -12,7 +12,7 @@ const Container = styled.div`
 const DaysContainer = styled.div`
     display: inline-flex;
     position: relative;
-    left: -${props => props.left}px;
+    left: -${(props) => props.left}px;
 
     transition: 0.3s all;
 `;

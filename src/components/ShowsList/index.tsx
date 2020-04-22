@@ -20,6 +20,14 @@ export default function ShowsList() {
     let isMounted = false;
 
     useEffect(() => {
+        isMounted = true;
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    useEffect(() => {
         let query = new URLSearchParams(location.search);
         let tempDate: any = query.get('data');
         if (tempDate) {
@@ -27,11 +35,12 @@ export default function ShowsList() {
         }
 
         if (tempDate && tempDate >= moment().subtract(1, 'days') && tempDate < moment().add(13, 'days')) {
-            isMounted && setDate(tempDate);
+            setDate(tempDate);
         }
     }, [location]);
 
     useEffect(() => {
+        setContentLoading(true);
         (async () => {
             try {
                 const API_RESPONSE = await get(`show/getdate/${date.format('YYYY-MM-DD')}`, { useToken: false });
@@ -52,25 +61,17 @@ export default function ShowsList() {
                             });
                         }
                     });
-
-                    console.log(temp);
+                    setShows(temp);
+                } else {
+                    setShows([]);
                 }
 
-                // isMounted && setShows(API_RESPONSE);
-                isMounted && setContentLoading(false);
+                setContentLoading(false);
             } catch (err) {
                 console.error(err);
             }
         })();
     }, [date]);
-
-    useEffect(() => {
-        isMounted = true;
-
-        return () => {
-            isMounted = false;
-        };
-    }, []);
 
     return (
         <Container>
