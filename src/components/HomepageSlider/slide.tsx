@@ -127,7 +127,7 @@ export default function Slide(props: any) {
     const { width } = useWindowDimensions();
 
     const buyTicket = () => {
-        history.push(`/seanse/${props.data.id}`);
+        history.push(`/seanse`);
     };
 
     return (

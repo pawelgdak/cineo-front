@@ -64,12 +64,24 @@ export default function Show(props: {}) {
     useEffect(() => {
         isMounted = true;
         (async () => {
-            const API_RESPONSE = await get('show');
-            isMounted && setShow(API_RESPONSE);
-            isMounted && setMovie(API_RESPONSE.movie);
+            const API_RESPONSE: Array<IShow> = await get(`show/getone/${id}`);
+            isMounted && setShow(API_RESPONSE[0]);
 
-            const trailerVideo = await movieTrailer(API_RESPONSE.movie.title);
-            isMounted && setTrailer(trailerVideo);
+            const API_RESPONSE_MOVIES = await get('movies/getall');
+            let movie: IMovie = null;
+            if (API_RESPONSE_MOVIES) {
+                movie = API_RESPONSE_MOVIES.find((movie: IMovie) => movie.id === API_RESPONSE[0].movieId);
+                isMounted && setMovie(movie);
+
+                if (movie) {
+                    try {
+                        const trailerVideo = await movieTrailer(movie.title);
+                        isMounted && setTrailer(trailerVideo);
+                    } catch (err) {
+                        isMounted && setTrailer(null);
+                    }
+                }
+            }
         })();
 
         return () => {
@@ -85,10 +97,10 @@ export default function Show(props: {}) {
                 Data seansu:{' '}
                 <Underlined>
                     <Popover content={popoverContent} title="Zobacz inne godziny">
-                        <div>
+                        <span>
                             {moment(show.dateAndTimeOfShows).format('DD.MM.YYYY')}{' '}
                             <TimeText>{moment(show.dateAndTimeOfShows).format('HH:mm')}</TimeText>
-                        </div>
+                        </span>
                     </Popover>
                 </Underlined>{' '}
             </DateText>
@@ -100,11 +112,12 @@ export default function Show(props: {}) {
             <div>
                 <CastTitle>Obsada</CastTitle>
                 <Row gutter={[16, 8]}>
-                    {movie.cast.map((actor: string, index: Number) => (
-                        <Col span={8} key={index.toString()}>
-                            <Actor>{actor}</Actor>
-                        </Col>
-                    ))}
+                    {movie.cast &&
+                        movie.cast.map((actor: string, index: Number) => (
+                            <Col span={8} key={index.toString()}>
+                                <Actor>{actor}</Actor>
+                            </Col>
+                        ))}
                 </Row>
             </div>
         );
