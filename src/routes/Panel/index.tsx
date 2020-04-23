@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import NavigationBar from '../../components/NavigationBar';
 import Heading from '../../components/Heading';
 import { Layout, Menu } from 'antd';
@@ -14,12 +14,13 @@ import UpdateMovie from './movies/update';
 
 import RoomsList from './rooms/list';
 import AddRoom from './rooms/add';
-import SeatSelector from '../../components/SeatSelector';
 import AddShow from './shows/add';
 import ShowsList from './shows/list';
 import Room from './rooms/room';
 import Show from './shows/show';
 import UpdateShow from './shows/update';
+
+import Dashboard from './dashboard';
 
 const Content = styled.div`
     padding: 24px;
@@ -171,7 +172,9 @@ export default function Panel() {
                             <RoomsList />
                         </Route>
 
-                        <Route path="/panel"></Route>
+                        <Route path="/panel">
+                            <Dashboard />
+                        </Route>
                     </Switch>
                 </Content>
             </Layout>
