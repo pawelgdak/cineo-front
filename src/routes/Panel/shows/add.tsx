@@ -58,13 +58,9 @@ export default function AddShow() {
             }
 
             const API_RESPONSE_ROOMS = await get('room/getall');
+
             if (API_RESPONSE_ROOMS) {
-                _isMounted &&
-                    setRooms(
-                        API_RESPONSE.map((el: IRoom) => {
-                            return { ...el, key: el.id };
-                        }),
-                    );
+                _isMounted && setRooms(API_RESPONSE_ROOMS);
                 _isMounted && setLoading(false);
             }
 
