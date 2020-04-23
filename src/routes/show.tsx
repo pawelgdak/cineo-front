@@ -16,6 +16,7 @@ import moment from 'moment';
 import movieTrailer from 'movie-trailer';
 // @ts-ignore
 import YouTube from 'react-youtube';
+import SeatSelector from '../components/SeatSelector';
 
 const DateContainer = styled(Row)`
     margin-top: 24px;
@@ -48,6 +49,12 @@ const CastTitle = styled.span`
     font-size: 1.2em;
 `;
 
+const TicketTitle = styled.span`
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 1.2em;
+`;
+
 const Actor = styled.div`
     font-family: 'Poppins';
     color: rgba(0, 0, 0, 0.6);
@@ -65,20 +72,22 @@ export default function Show(props: {}) {
         isMounted = true;
         (async () => {
             const API_RESPONSE: Array<IShow> = await get(`show/getone/${id}`);
-            isMounted && setShow(API_RESPONSE[0]);
+            if (API_RESPONSE) {
+                isMounted && setShow(API_RESPONSE[0]);
 
-            const API_RESPONSE_MOVIES = await get('movies/getall');
-            let movie: IMovie = null;
-            if (API_RESPONSE_MOVIES) {
-                movie = API_RESPONSE_MOVIES.find((movie: IMovie) => movie.id === API_RESPONSE[0].movieId);
-                isMounted && setMovie(movie);
+                const API_RESPONSE_MOVIES = await get(`movies/getone/${API_RESPONSE[0].movieId}`);
+                let movie: IMovie = null;
+                if (API_RESPONSE_MOVIES) {
+                    movie = API_RESPONSE_MOVIES[0];
+                    isMounted && setMovie(movie);
 
-                if (movie) {
-                    try {
-                        const trailerVideo = await movieTrailer(movie.title);
-                        isMounted && setTrailer(trailerVideo);
-                    } catch (err) {
-                        isMounted && setTrailer(null);
+                    if (movie) {
+                        try {
+                            const trailerVideo = await movieTrailer('szybcy i wsciekli');
+                            isMounted && setTrailer(trailerVideo);
+                        } catch (err) {
+                            isMounted && setTrailer('');
+                        }
                     }
                 }
             }
@@ -123,6 +132,17 @@ export default function Show(props: {}) {
         );
     };
 
+    const DisplayRoom = () => {
+        return (
+            <div>
+                <TicketTitle>Rezerwuj bilet</TicketTitle>
+                <div style={{ marginTop: 12 }}>
+                    <SeatSelector roomId={show.roomId} />
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div>
             <MovieBanner movie={movie} />
@@ -148,18 +168,36 @@ export default function Show(props: {}) {
                     </Col>
                     <Col xs={0} md={0} lg={2} />
                     <Col xs={24} md={24} lg={10}>
-                        {(trailer && (
-                            <YouTube
-                                videoId={trailer.split('?v=')[1]}
-                                opts={{
-                                    width: '100%',
-                                    height: '230px',
-                                    playerVars: {
-                                        autoplay: 0,
-                                    },
-                                }}
-                            />
-                        )) || <Skeleton height={200} />}
+                        {(trailer !== null &&
+                            (trailer === '' ? (
+                                <div />
+                            ) : (
+                                <YouTube
+                                    videoId={trailer.split('?v=')[1]}
+                                    opts={{
+                                        width: '100%',
+                                        height: '230px',
+                                        playerVars: {
+                                            autoplay: 0,
+                                        },
+                                    }}
+                                />
+                            ))) || <Skeleton height={200} />}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        {(show && <DisplayRoom />) || (
+                            <Row gutter={[0, 32]}>
+                                <Col xs={24} md={24} lg={12}>
+                                    <Skeleton height={100} />
+                                </Col>
+                                <Col xs={0} md={0} lg={2} />
+                                <Col xs={24} md={24} lg={10}>
+                                    <Skeleton height={80} />
+                                </Col>
+                            </Row>
+                        )}
                     </Col>
                 </Row>
             </Container>

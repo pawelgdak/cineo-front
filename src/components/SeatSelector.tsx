@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import SeatChart from './SeatChart';
 import { Row, Col, Button } from 'antd';
 import styled from 'styled-components';
+import IRoom from '../interfaces/IRoom';
+import { get } from '../utils/requests';
 
 const Header = styled.div`
     font-family: 'Poppins';
@@ -20,7 +22,7 @@ const SelectedSeatsInfo = styled.div`
     padding: 24px 0;
 `;
 
-export default function SeatSelector() {
+export default function SeatSelector(props: { roomId: number }) {
     const seatsTaken = [
         {
             row: 0,
@@ -37,6 +39,25 @@ export default function SeatSelector() {
     ];
 
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [room, setRoom]: [IRoom, Function] = useState(null);
+    let isMounted = false;
+
+    useEffect(() => {
+        isMounted = true;
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const API_RESPONSE_ROOMS = await get(`room/getseats/${props.roomId}`);
+
+            if (API_RESPONSE_ROOMS) {
+                isMounted && setRoom(API_RESPONSE_ROOMS[0]);
+            }
+        })();
+    }, [props.roomId]);
 
     return (
         <Row gutter={[16, 16]}>
@@ -46,10 +67,11 @@ export default function SeatSelector() {
                     setSelectedSeats={setSelectedSeats}
                     selectedSeats={selectedSeats}
                     seatsTaken={seatsTaken}
-                    map={`AAAAAA__AA\nAAAAAA__AA\nAAAAAA__AA\nAAAAAAAAAA`}
+                    map={room ? room.seatMap : ''}
                 />
             </Col>
-            <Col xs={24} sm={24} md={24} lg={12}>
+            <Col xs={0} md={0} lg={2} />
+            <Col xs={24} sm={24} md={24} lg={10}>
                 {selectedSeats.length > 0 ? (
                     <Summary>
                         <Header>Podsumowanie</Header>

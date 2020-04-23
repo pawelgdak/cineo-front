@@ -171,9 +171,7 @@ export default function Panel() {
                             <RoomsList />
                         </Route>
 
-                        <Route path="/panel">
-                            <SeatSelector />
-                        </Route>
+                        <Route path="/panel"></Route>
                     </Switch>
                 </Content>
             </Layout>
