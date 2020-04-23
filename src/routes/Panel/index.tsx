@@ -19,6 +19,7 @@ import AddShow from './shows/add';
 import ShowsList from './shows/list';
 import Room from './rooms/room';
 import Show from './shows/show';
+import UpdateShow from './shows/update';
 
 const Content = styled.div`
     padding: 24px;
@@ -149,6 +150,9 @@ export default function Panel() {
 
                         <Route path="/panel/shows/add">
                             <AddShow />
+                        </Route>
+                        <Route path="/panel/shows/:id/update">
+                            <UpdateShow />
                         </Route>
                         <Route path="/panel/shows/:id">
                             <Show />

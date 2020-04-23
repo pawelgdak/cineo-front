@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Row, Col, Form, Input, Button, message, Select, DatePicker } from 'antd';
 import styled from 'styled-components';
-import { post, get } from '../../../utils/requests';
-import { useHistory } from 'react-router-dom';
+import { post, get, put } from '../../../utils/requests';
+import { useHistory, useParams } from 'react-router-dom';
 import IMovie from '../../../interfaces/IMovie';
 import IRoom from '../../../interfaces/IRoom';
+import IShow from '../../../interfaces/IShow';
 import moment from 'moment';
 
 const { Option } = Select;
@@ -27,10 +28,13 @@ const TextArea = styled(Input.TextArea)`
     font-family: 'Courier';
 `;
 
-export default function AddShow() {
+export default function UpdateShow() {
     const [loading, setLoading] = useState(false);
     const [movies, setMovies] = useState([]);
     const [rooms, setRooms] = useState([]);
+
+    const [show, setShow]: [IShow, Function] = useState(null);
+    const { id } = useParams();
 
     const history = useHistory();
 
@@ -46,6 +50,22 @@ export default function AddShow() {
     useEffect(() => {
         _isMounted = true;
         (async () => {
+            if (id) {
+                const API_RESPONSE_SHOW = await get(`show/getone/${id}`);
+                if (API_RESPONSE_SHOW) {
+                    setShow(API_RESPONSE_SHOW[0]);
+
+                    let s: IShow = API_RESPONSE_SHOW[0];
+
+                    setDate(s.dateAndTimeOfShows);
+                    setRoom(s.roomId);
+                    setMovie(s.movieId);
+                    setPrice(s.price);
+                    setLanguage(s.language);
+                    setSubtitles(s.subtitles);
+                }
+            }
+
             const API_RESPONSE = await get('movies/getall');
             if (API_RESPONSE) {
                 _isMounted &&
@@ -90,7 +110,8 @@ export default function AddShow() {
         }
 
         try {
-            const API_RESPONSE = await post('show/add', {
+            const API_RESPONSE = await put(`show/edit/${id}`, {
+                id,
                 movieId: movie,
                 roomId: room,
                 language: language || '-',
@@ -115,11 +136,11 @@ export default function AddShow() {
                 <Col span={24}>
                     <Row justify="space-between">
                         <Col>
-                            <Header>Dodaj seans</Header>
+                            <Header>Edytuj seans numer #{id}</Header>
                         </Col>
                         <Col style={{ alignItems: 'center', display: 'flex' }}>
                             <Button loading={loading} onClick={() => handleForm()}>
-                                Dodaj
+                                Zapisz
                             </Button>
                         </Col>
                     </Row>
@@ -131,6 +152,7 @@ export default function AddShow() {
                         <Col span={24}>
                             <Label>Film</Label>
                             <Select
+                                value={movie}
                                 disabled={loading}
                                 onSelect={(val) => setMovie(val)}
                                 showSearch
@@ -155,6 +177,7 @@ export default function AddShow() {
                         <Col span={24}>
                             <Label>Sala</Label>
                             <Select
+                                value={room}
                                 disabled={loading}
                                 onSelect={(val) => setRoom(val)}
                                 showSearch
@@ -180,6 +203,7 @@ export default function AddShow() {
                             <Label>Język filmu</Label>
                             <Input
                                 disabled={loading}
+                                value={language}
                                 style={{ width: '100%' }}
                                 placeholder="angielski"
                                 onChange={(e) => setLanguage(e.target.value)}
@@ -193,6 +217,7 @@ export default function AddShow() {
                             <Label>Data</Label>
                             <DatePicker
                                 disabled={loading}
+                                value={moment(date)}
                                 style={{ width: '100%' }}
                                 placeholder="2020-04-20 20:00"
                                 showTime={{ format: 'HH:mm' }}
@@ -206,6 +231,7 @@ export default function AddShow() {
                             <Label>Cena biletu</Label>
                             <Input
                                 type="number"
+                                value={price}
                                 disabled={loading}
                                 style={{ width: '100%' }}
                                 placeholder="18"
@@ -219,6 +245,7 @@ export default function AddShow() {
                             <Label>Język napisów</Label>
                             <Input
                                 disabled={loading}
+                                value={subtitles}
                                 style={{ width: '100%' }}
                                 placeholder="polski"
                                 onChange={(e) => setSubtitles(e.target.value)}
