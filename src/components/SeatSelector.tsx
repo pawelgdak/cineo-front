@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import SeatChart from './SeatChart';
-import { Row, Col, Button, Radio } from 'antd';
+import { Row, Col, Button, Radio, message, Modal } from 'antd';
 import styled from 'styled-components';
 import IRoom from '../interfaces/IRoom';
-import { get } from '../utils/requests';
+import { get, post } from '../utils/requests';
 import IUser from '../interfaces/IUser';
 import { useGlobalState } from '../state';
 import { Link, useLocation } from 'react-router-dom';
+import IShow from '../interfaces/IShow';
 
 const Header = styled.div`
     font-family: 'Poppins';
@@ -25,7 +26,19 @@ const SelectedSeatsInfo = styled.div`
     padding: 24px 0;
 `;
 
-export default function SeatSelector(props: { roomId: number }) {
+const BookingCode = styled.div`
+    background: rgba(0, 0, 0, 0.04);
+    font-family: 'Poppins';
+    color: black;
+    font-weight: 500;
+    padding: 8px 12px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+    cursor: pointer;
+`;
+
+export default function SeatSelector(props: { roomId: number; show?: IShow }) {
     const location = useLocation();
     const seatsTaken = [
         {
@@ -48,6 +61,11 @@ export default function SeatSelector(props: { roomId: number }) {
     const [phase, setPhase] = useState(0);
     const [user] = useGlobalState('user');
     const [loginModalOpened, setLoginModalOpened] = useGlobalState('loginModalOpened');
+    const [buttonLoading, setButtonLoading] = useState(false);
+    const [bookingTicketIds, setBookingTicketIds] = useState([]);
+    const [paymentModalVisible, setPaymentModalVisible] = useState(false);
+    const [paymentLoading, setPaymentLoading] = useState(false);
+    const [paymentSuceed, setPaymentSuceed] = useState(false);
 
     let isMounted = false;
 
@@ -72,6 +90,35 @@ export default function SeatSelector(props: { roomId: number }) {
         setPhase(phase);
     };
 
+    const bookSelectedSeats = async () => {
+        setButtonLoading(true);
+        let ticketsIds: any = [];
+
+        selectedSeats.forEach(async (seat) => {
+            let roomSeat = room.seats.find((x) => x.col === seat.col + 1 && x.row === seat.row + 1);
+            // if (typeof roomSeat !== 'undefined') {
+            //     try {
+            //         const API_RESPONSE = await post('TicketRsvnPch', {
+            //             seatId: roomSeat.id,
+            //             showId: props.show.id,
+            //             type: 2, // 1 - zakup, 2 - rezerwacja
+            //         }, {useToken: false});
+
+            //         ticketsIds.push(API_RESPONSE.id);
+            //     } catch (err) {
+            //         message.warning(err.map ? err.map((error: any) => error) : err.message);
+            //         setButtonLoading(false);
+            //     }
+            // }
+
+            ticketsIds.push(1, 2, 3);
+        });
+
+        setBookingTicketIds(ticketsIds);
+        setPhase(3);
+        setButtonLoading(false);
+    };
+
     const SummaryContent = () => {
         if (phase === 0)
             return (
@@ -82,7 +129,7 @@ export default function SeatSelector(props: { roomId: number }) {
                         {selectedSeats.map((seat) => {
                             return (
                                 <div key={seat.id}>
-                                    Rząd: {seat.row + 1}, miejsce: {seat.col + 1}
+                                    Rząd: {seat.row + 1}, miejsce: {seat.col + 1} (cena: {props.show.price}zł)
                                 </div>
                             );
                         })}
@@ -97,9 +144,9 @@ export default function SeatSelector(props: { roomId: number }) {
             return (
                 <div>
                     <Header>Podsumowanie</Header>
+                    Wybierz co chcesz zrobić
                     <SelectedSeatsInfo>
-                        Wybierz co chcesz zrobić
-                        <Row style={{ marginTop: 12 }}>
+                        <Row>
                             <Radio.Group value={actionType}>
                                 <Col span={24}>
                                     <Radio onClick={(e) => setActionType(1)} value={1}>
@@ -130,7 +177,81 @@ export default function SeatSelector(props: { roomId: number }) {
                 </div>
             );
 
-        if (phase === 2) return <div></div>;
+        if (phase === 2) {
+            if (actionType === 1) {
+                return (
+                    <div>
+                        <Header>Podsumowanie</Header>
+                        Czy jesteś pewny, że chcesz zarezerwować wybrane miejsca?:
+                        <SelectedSeatsInfo>
+                            {selectedSeats.map((seat) => {
+                                return (
+                                    <div key={seat.id}>
+                                        Rząd: {seat.row + 1}, miejsce: {seat.col + 1} (cena: {props.show.price}zł)
+                                    </div>
+                                );
+                            })}
+                        </SelectedSeatsInfo>
+                        <SummaryButtons>
+                            <Button style={{ marginRight: 8 }} onClick={() => proceed(1)}>
+                                Wróć
+                            </Button>
+                            <Button loading={buttonLoading} onClick={() => bookSelectedSeats()}>
+                                Potwierdź
+                            </Button>
+                        </SummaryButtons>
+                    </div>
+                );
+            } else if (actionType === 2) {
+                return (
+                    <div>
+                        <Header>Podsumowanie</Header>
+                        Czy jesteś pewny, że chcesz kupić wybrane miejsca?:
+                        <SelectedSeatsInfo>
+                            {selectedSeats.map((seat) => {
+                                return (
+                                    <div key={seat.id}>
+                                        Rząd: {seat.row + 1}, miejsce: {seat.col + 1} (cena: {props.show.price}zł)
+                                    </div>
+                                );
+                            })}
+                        </SelectedSeatsInfo>
+                        <SummaryButtons>
+                            <Button style={{ marginRight: 8 }} onClick={() => proceed(1)}>
+                                Wróć
+                            </Button>
+                            <Button loading={buttonLoading} onClick={() => setPaymentModalVisible(true)}>
+                                Przejdź do płatności
+                            </Button>
+                        </SummaryButtons>
+                    </div>
+                );
+            }
+        }
+
+        if (phase === 3) {
+            if (actionType === 1) {
+                return (
+                    <div>
+                        <Header>Podsumowanie</Header>
+                        Udało się zarezerwować wybrane miejsca. W celu identyfikacji rezerwacji, pracownikowi kina
+                        należy okazać następujący kod/kody:
+                        <SelectedSeatsInfo>
+                            {bookingTicketIds.map((code, index) => {
+                                return <BookingCode key={`code-${index}`}>{code + 10000}</BookingCode>;
+                            })}
+                        </SelectedSeatsInfo>
+                    </div>
+                );
+            } else if (actionType === 2) {
+                return (
+                    <div>
+                        <Header>Podsumowanie</Header>
+                        Udało się kupić bilet na wybrane miejsca. Miłego seansu!
+                    </div>
+                );
+            }
+        }
     };
 
     return (
@@ -155,6 +276,52 @@ export default function SeatSelector(props: { roomId: number }) {
                     <div>Wybierz miejsca aby kontynować</div>
                 )}
             </Col>
+
+            <Modal
+                title="Płatność"
+                visible={paymentModalVisible}
+                footer={[
+                    <Button key="back" onClick={(e) => setPaymentModalVisible(false)}>
+                        Anuluj
+                    </Button>,
+                    <Button
+                        key="submit"
+                        type="primary"
+                        loading={paymentLoading}
+                        onClick={(e) => {
+                            setPaymentLoading(true);
+                            setTimeout(() => {
+                                // selectedSeats.forEach(async (seat) => {
+                                //     let roomSeat = room.seats.find(
+                                //         (x) => x.col === seat.col + 1 && x.row === seat.row + 1,
+                                //     );
+                                //     if (typeof roomSeat !== 'undefined') {
+                                //         try {
+                                //             const API_RESPONSE = await post('TicketRsvnPch', {
+                                //                 seatId: roomSeat.id,
+                                //                 showId: props.show.id,
+                                //                 type: 1, // 1 - zakup, 2 - rezerwacja
+                                //             });
+                                //         } catch (err) {
+                                //             message.warning(err.map ? err.map((error: any) => error) : err.message);
+                                //             setButtonLoading(false);
+                                //         }
+                                //     }
+                                // });
+                                setPhase(3);
+
+                                setPaymentModalVisible(false);
+                                setPaymentSuceed(true);
+                                setPaymentLoading(false);
+                            }, 1500);
+                        }}
+                    >
+                        Zapłać
+                    </Button>,
+                ]}
+            >
+                <p>Łączny koszt: {props.show.price * selectedSeats.length}zł</p>
+            </Modal>
         </Row>
     );
 }

@@ -137,7 +137,7 @@ export default function Show(props: {}) {
             <div>
                 <TicketTitle>Rezerwuj bilet</TicketTitle>
                 <div style={{ marginTop: 12 }}>
-                    <SeatSelector roomId={show.roomId} />
+                    <SeatSelector show={show} roomId={show.roomId} />
                 </div>
             </div>
         );

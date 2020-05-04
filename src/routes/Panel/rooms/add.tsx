@@ -33,6 +33,7 @@ export default function AddRoom() {
 
     const handleForm = async () => {
         const seats = seatChartRef.current.getSeats();
+
         try {
             const API_RESPONSE = await post('room/add', {
                 seatmap: map,

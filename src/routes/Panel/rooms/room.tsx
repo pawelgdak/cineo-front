@@ -28,7 +28,7 @@ export default function Room() {
 
         (async () => {
             if (id) {
-                const API_RESPONSE = await get(`room/getone/${id}`);
+                const API_RESPONSE = await get(`room/getseats/${id}`);
                 if (API_RESPONSE) {
                     _isMounted && setRoom(API_RESPONSE[0]);
                 }
@@ -73,14 +73,14 @@ export default function Room() {
                             <Header>Sala numer {room.id}</Header>
                         </Col>
                         <Col style={{ alignItems: 'center', display: 'flex' }}>
-                            {/* <Button
+                            <Button
                                 type="danger"
                                 onClick={() => {
                                     showDeleteConfirm();
                                 }}
                             >
                                 Usuń
-                            </Button> */}
+                            </Button>
                         </Col>
                     </Row>
                 </Col>
