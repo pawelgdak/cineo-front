@@ -12,7 +12,7 @@ const Heading = styled.p`
     font-size: 18px;
 `;
 
-export default function AccountModal(props: { visible: boolean; setVisible: Function }) {
+export default function AccountModal() {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [slide, setSlide] = useState(0);
@@ -32,6 +32,7 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
     const [registerDateOfBirth, setRegisterDateOfBirth] = useState(null);
 
     const [user, setUser] = useGlobalState('user');
+    const [loginModalOpened, setLoginModalOpened] = useGlobalState('loginModalOpened');
 
     const handleLogin = async () => {
         setLoading(true);
@@ -69,7 +70,7 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
             // const userWithToken = await get('userwithtoken');
             // setUser(userWithToken.user);
 
-            props.setVisible(false);
+            setLoginModalOpened(false);
         } catch (err) {
             message.warning(err.map ? err.map((error: any) => error) : err.message);
             setLoading(false);
@@ -138,7 +139,7 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
                 }
 
                 setUser(userData);
-                props.setVisible(false);
+                setLoginModalOpened(false);
             } else {
                 message.warning('Coś poszło nie tak. Spróbuj ponownie za jakiś czas.');
             }
@@ -191,9 +192,9 @@ export default function AccountModal(props: { visible: boolean; setVisible: Func
     return (
         <Modal
             title="Zaloguj się"
-            onCancel={() => props.setVisible(false)}
+            onCancel={() => setLoginModalOpened(false)}
             onOk={() => {}}
-            visible={props.visible}
+            visible={loginModalOpened}
             footer={[
                 slide === 2 ? (
                     <Button key="back" type="ghost" loading={loading} onClick={() => changeSlide(1)}>

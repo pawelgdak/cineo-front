@@ -70,7 +70,7 @@ const NavLink = styled(Link)`
 
 export default function Navigation(props: any) {
     const location = useLocation();
-    const [visible, setVisible] = useState(false);
+    const [loginModalOpened, setLoginModalOpened] = useGlobalState('loginModalOpened');
 
     const [user, setUser] = useGlobalState('user');
 
@@ -107,8 +107,8 @@ export default function Navigation(props: any) {
             <NavLink
                 style={{ marginRight: 0 }}
                 active={(location.pathname === '/user').toString()}
-                to={user ? '/user' : location.pathname}
-                onClick={() => !user && setVisible(true)}
+                to={user ? '/user' : '#'}
+                onClick={() => !user && setLoginModalOpened(true)}
             >
                 <NavItem>
                     <UserOutlined />
@@ -122,7 +122,7 @@ export default function Navigation(props: any) {
                 </NavLink>
             )}
 
-            <AccountDrawer setVisible={(value: boolean) => setVisible(value)} visible={visible} />
+            <AccountDrawer />
         </Container>
     );
 }

@@ -64,6 +64,17 @@ const CustomCol = styled.div`
     width: ${(props) => props.width}%;
 `;
 
+const Overlay = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.4);
+`;
+
 export default forwardRef(function SeatChart(
     props: {
         map: string;
@@ -71,10 +82,13 @@ export default forwardRef(function SeatChart(
         selectedSeats?: Array<any>;
         setSelectedSeats?: Function;
         selectable?: Boolean;
+        disabled?: Boolean;
     },
     ref,
 ) {
-    const { map, seatsTaken, selectedSeats, setSelectedSeats } = props;
+    let { map, seatsTaken, selectedSeats, setSelectedSeats, disabled } = props;
+
+    if (typeof disabled === 'undefined') disabled = false;
 
     const [seatMap, setSeatMap] = useState([]);
     const [columns, setColumns] = useState(0);
@@ -205,6 +219,8 @@ export default forwardRef(function SeatChart(
                     <Col>Miejsce zajęte</Col>
                 </Row>
             </Legend>
+
+            {disabled && <Overlay />}
         </Container>
     );
 });

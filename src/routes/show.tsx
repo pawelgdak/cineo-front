@@ -71,11 +71,11 @@ export default function Show(props: {}) {
     useEffect(() => {
         isMounted = true;
         (async () => {
-            const API_RESPONSE: Array<IShow> = await get(`show/getone/${id}`);
+            const API_RESPONSE: Array<IShow> = await get(`show/getone/${id}`, { useToken: false });
             if (API_RESPONSE) {
                 isMounted && setShow(API_RESPONSE[0]);
 
-                const API_RESPONSE_MOVIES = await get(`movies/getone/${API_RESPONSE[0].movieId}`);
+                const API_RESPONSE_MOVIES = await get(`movies/getone/${API_RESPONSE[0].movieId}`, { useToken: false });
                 let movie: IMovie = null;
                 if (API_RESPONSE_MOVIES) {
                     movie = API_RESPONSE_MOVIES[0];
