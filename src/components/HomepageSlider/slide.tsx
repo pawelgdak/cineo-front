@@ -176,9 +176,7 @@ export default function Slide(props: any) {
                 <Col xs={24} sm={24} md={12} span={12}>
                     <Row>
                         <Col>
-                            <Row>
-                                <Info>Obsada</Info>
-                            </Row>
+                            <Row>{/* <Info>Obsada</Info> */}</Row>
                             <Row gutter={[32, 18]}>
                                 {props.data.cast &&
                                     props.data.cast.map((actor: string, index: Number) => (

@@ -117,6 +117,7 @@ export default function Show(props: {}) {
     };
 
     const DisplayCast = () => {
+        return <div />;
         return (
             <div>
                 <CastTitle>Obsada</CastTitle>
